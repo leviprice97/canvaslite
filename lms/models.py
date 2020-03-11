@@ -2,12 +2,31 @@ from django.db import models
 from django.utils import timezone
 
 
+class Course(models.Model):
+    course_id = models.IntegerField(blank=False, null=False, unique=True)
+    course_description = models.TextField()
+    course_name = models.CharField(max_length=100)
+    created_date = models.DateTimeField(
+        default=timezone.now)
+
+    def created(self):
+        self.created_date = timezone.now()
+        self.save()
+
+    def updated(self):
+        self.updated_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.course_id)
+
+
 class Assignment(models.Model):
     assignment_name = models.CharField(max_length=100)
     a_description = models.TextField()
     assignment_points = models.IntegerField()
     assignment_file_path = models.CharField(max_length=100)
-    course_id = models.IntegerField()
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
     due_date = models.DateTimeField(
         default=timezone.now)
     created_date = models.DateTimeField(
@@ -25,6 +44,6 @@ class Assignment(models.Model):
         self.save()
 
     def __str__(self):
-        return str(self.assignment_id)
+        return str(self.assignment_name)
 
 # Create your models here.
