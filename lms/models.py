@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+# Create your models here.
 
 class Course(models.Model):
     course_id = models.IntegerField(blank=False, null=False, unique=True)
@@ -46,4 +47,8 @@ class Assignment(models.Model):
     def __str__(self):
         return str(self.assignment_name)
 
-# Create your models here.
+
+class Announcement(models.Model):
+    announcement_name = models.CharField(max_length=100)
+    description = models.TextField()
+	date = models.DateTimeField(default=timezone.now)
