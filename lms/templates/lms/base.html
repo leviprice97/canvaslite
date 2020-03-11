@@ -1,145 +1,65 @@
 {% load staticfiles %}
-
+<!doctype html>
 <html lang="en">
-<head>
-    <title>Canvas Lite</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        /* Remove the navbar's default margin-bottom and rounded borders */
-        .navbar {
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-
-        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-        .row.content {
-            height: 450px
-        }
-
-        /* Set gray background color and 100% height */
-        .sidenav {
-            padding-top: 20px;
-            background-color: #f1f1f1;
-            height: 100%;
-        }
-
-        /* Set black background color, white text and some padding */
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 15px;
-        }
-
-        /* On small screens, set height to 'auto' for sidenav and grid */
-        @media screen and (max-width: 767px) {
-            .sidenav {
-                height: auto;
-                padding: 15px;
-            }
-
-            .row.content {
-                height: auto;
-            }
-        }
-    </style>
-</head>
-<body id="app-layout">
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-
-            <!-- Collapsed Hamburger -->
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#myNavbar">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Canvas-Lite</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">Canvas-Lite</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- Branding Image -->
-            <a class="navbar-brand" href="/">
-                Maverick Food Service
-            </a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li><a href=>Home</a></li>
-                <li><a href=>Customers</a></li>
-               <li><a href=>Services</a></li>
-                <li><a href=>Products</a></li>
-
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{% url 'logout' %}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                        </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'lms:home_view_public' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
-                {% else %}
-                    <li><a href=><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="content container">
-    <div class="row">
-        <div class="col-md-8">
-            {% block content %}
-                <div class="links">
-                    <!-- Example row of columns -->
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="thumbnail">
-                                <img src="{% static "images/customer.jpg" %}" alt="customer"/>
-                                <div class="caption">
-                                    <h2>Customer</h2>
-                                    <p>Delighting customers and giving them a great dining experience is our main goal. </p>
-                                    {% if user.is_authenticated %}
-                                        <p><a class="btn btn-default" href=
-                                              role="button">View
-                                            details &raquo;</a></p>
-                                    {% endif %}
-                                </div>
-                            </div>
+                   <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Course Pages
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'lms:course_list' %}">Course List</a>
+                            <a class="dropdown-item" href="{% url 'lms:course_new' %}">Course Create</a>
+                            <!--<div class="dropdown-divider"></div>-->
                         </div>
-                        <div class="col-md-3">
-                            <div class="thumbnail">
-                                <img src="{% static "images/cupcakes.jpeg" %}" alt="cupcakes"/>
-                                <div class="caption">
-                                    <h2>Products</h2>
-                                    <p>High quality products at affordable prices.</p>
-                                    <p><a class="btn btn-default" href=
-                                           role="button">View
-                                        details &raquo;</a></p>
-                                </div>
-                            </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Assignment Pages
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'lms:assignment_list' %}">Assignment List</a>
+                            <a class="dropdown-item" href="{% url 'lms:assignment_new' %}">Assignment Create</a>
+                            <!--<div class="dropdown-divider"></div>-->
                         </div>
-                        <div class="col-md-3">
-                            <div class="thumbnail">
-                                <img src="{% static "images/lunch.jpeg" %}" alt="lunch"/>
-                                <div class="caption">
-                                    <h2>Services</h2>
-                                    <p>Our food and services are second to none.</p>
-                                    <p><a class="btn btn-default" href=View
-                                        details &raquo;</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            {% endblock %}
-        </div>
-    </div>
-</body>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>-->
+                </ul>
+                <!--
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>-->
+            </div>
+        </nav>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        {% block content %}
+        {% endblock %}
+    </body>
 </html>
