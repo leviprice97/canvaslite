@@ -22,4 +22,8 @@ urlpatterns = [
     path('assignment/create/', views.assignment_new, name='assignment_new'),
     path('assignment/<int:pk>/edit/', views.assignment_edit, name='assignment_edit'),
     path('assignment/<int:pk>/delete/', views.assignment_delete, name='assignment_delete'),
+    path('course_list', views.course_list, name='course_list'),
+    path('course/create/', views.course_new, name='course_new'),
+    path('course/<int:pk>/edit/', views.course_edit, name='course_edit'),
+    path('course/<int:pk>/delete/', views.course_delete, name='course_delete'),
 ]

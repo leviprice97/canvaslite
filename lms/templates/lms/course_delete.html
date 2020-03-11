@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% block body_block %}
+    <h1>Delete {{ course.course_name}}?</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="Delete">
+        <a href="{% url 'lms:assignment_list' pk=assignment.id%} ">Cancel</a>
+
+    </form>
+
+{% endblock %}
