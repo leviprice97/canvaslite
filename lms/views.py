@@ -6,6 +6,9 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.db.models import Sum
 
+def home(request):
+    return render(request, 'lms/home_view_public.html',
+                  {'lms': home})
 
 def assignment_new(request):
     if request.method == "POST":
