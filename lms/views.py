@@ -23,6 +23,27 @@ def assignment_new(request):
     return render(request, 'lms/assignment_new.html', {'form': form})
 
 
+def course_new(request):
+    if request.method == "POST":
+        form = CourseForm(request.POST)
+        if form.is_valid():
+            course = form.save(commit=False)
+            course.created_date = timezone.now()
+            course.save()
+            courses = Course.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'lms/course_list.html',
+                          {'courses': courses})
+    else:
+        form = CourseForm()
+        # print("Else")
+    return render(request, 'lms/course_new.html', {'form': form})
+
+
+def course_list(request):
+    courses = Course.objects.filter(created_date__lte=timezone.now())
+    return render(request, 'lms/course_list.html', {'courses': courses})
+
+
 def assignment_list(request):
     assignments = Assignment.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/assignment_list.html', {'assignments': assignments})
@@ -49,3 +70,26 @@ def assignment_delete(request, pk):
     assignment = get_object_or_404(Assignment, pk=pk)
     assignment.delete()
     return redirect('lms:assignment_list')
+
+
+def course_edit(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    if request.method == "POST":
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            course = form.save()
+            # service.customer = service.id
+            course.updated_date = timezone.now()
+            course.save()
+            courses = Course.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'lms/course_list.html', {'courses': courses})
+    else:
+        # print("else")
+        form = CourseForm(instance=course)
+    return render(request, 'lms/course_edit.html', {'form': form})
+
+
+def course_delete(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    course.delete()
+    return redirect('lms:course_list')
