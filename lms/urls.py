@@ -18,6 +18,8 @@ from . import views
 from django.urls import path, re_path
 app_name = 'lms'
 urlpatterns = [
+    path('', views.home, name='home'),
+    re_path(r'^home/$', views.home, name='home'),
     path('assignment_list', views.assignment_list, name='assignment_list'),
     path('assignment/create/', views.assignment_new, name='assignment_new'),
     path('assignment/<int:pk>/edit/', views.assignment_edit, name='assignment_edit'),
