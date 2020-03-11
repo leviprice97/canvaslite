@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+{% extends 'lms/base.html' %}
+{% block content %}
+{% endblock %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,21 +9,27 @@
 <body>
     <div>
         <h2>Recent Announcements</h2>
-        <p>Sample announcement</p>
+        <p>Sample announcements...maybe? To be determined if this should even be here</p>
     </div>
 
     <!-- This is where calendar stuff should go -->
 
     <div class="caption">
-        <h2>Create/Edit Assignment</h2>
-        <p>Create Assignment or Edit Existing Assignment </p>
-        <p><a class="btn btn-primary" href="{% url '' %}"
+        <h2>View Courses</h2>
+        <p>View currently enrolled courses</p>
+         <p><a class="btn btn-primary" href="{% url 'lms:course_list' %}"
               role="button">View details &raquo;</a></p>
     </div>
     <div class="caption">
-        <h2>Create/Edit Announcement</h2>
-        <p>Create Announcement or Edit Existing Announcement </p>
-        <p><a class="btn btn-primary" href="{% url '' %}"
+        <h2>View Assignments</h2>
+        <p>View current assignments</p>
+        <p><a class="btn btn-primary" href="{% url 'lms:assignment_list' %}"
+              role="button">View details &raquo;</a></p>
+    </div>
+    <div class="caption">
+        <h2>View Announcements</h2>
+        <p>View new announcements</p>
+        <p><a class="btn btn-primary" href="{% url 'lms:announcement_list' %}"
               role="button">View details &raquo;</a></p>
     </div>
 </body>
