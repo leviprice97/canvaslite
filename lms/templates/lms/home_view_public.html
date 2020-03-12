@@ -7,34 +7,44 @@
 </head>
 <body>
     <div>
-        <h2>Recent Announcements</h2>
-        <p>Sample announcements...maybe? To be determined if this should even be here</p>
+        <h2>Student Calendar</h2>
+        <p>Calendar will likely be on this page.</p>
     </div>
 
     <!-- This is where calendar stuff should go -->
 
-    <div class="caption">
-        <h2>View Courses</h2>
-        <p>View currently enrolled courses</p>
-         <p><a class="btn btn-primary" href="{% url 'lms:course_list' %}"
-              role="button">View details &raquo;</a></p>
-    </div>
-    <div class="caption">
-        <h2>View Assignments</h2>
-        <p>View current assignments</p>
-        <p><a class="btn btn-primary" href="{% url 'lms:assignment_list' %}"
-              role="button">View details &raquo;</a></p>
-    </div>
-    <div class="caption">
-        <h2>View Announcements</h2>
-        <p>View new announcements</p>
-        <p><a class="btn btn-primary" href="{% url 'lms:announcement_list' %}"
-              role="button">View details &raquo;</a></p>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="links">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="caption">
+                                <h2>Courses</h2>
+                                <p>View currently enrolled courses.</p>
+                                <p><a class="btn btn-primary" href="{% url 'lms:course_list' %}"
+                                      role="button">View details &raquo;</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="caption">
+                                <h2>Assignments</h2>
+                                <p>View list of assigned work.</p>
+                                <p><a class="btn btn-primary" href="{% url 'lms:assignment_list' %}"
+                                      role="button">View details &raquo;</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="caption">
+                                <h2>Announcements</h2>
+                                <p>View instructor announcements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> c1f92ca8fbed71756016a3261139e682695c4cf9
