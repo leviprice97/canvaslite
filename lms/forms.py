@@ -2,7 +2,6 @@ from django import forms
 from .models import Assignment
 from .models import Course
 
-
 class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
@@ -21,4 +20,4 @@ class CourseForm(forms.ModelForm):
 class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
-        fields = ('announcement_name', 'description', 'date')
+        fields = ('course_id', 'announcement_name', 'description', 'created_date', 'updated_date')
