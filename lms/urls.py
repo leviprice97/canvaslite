@@ -18,6 +18,8 @@ from . import views
 from django.urls import path, re_path
 app_name = 'lms'
 urlpatterns = [
+    path('', views.home_view_public, name='home_view_public'),
+    re_path(r'^home_view_public/$', views.home_view_public, name='home_view_public'),
     path('assignment_list', views.assignment_list, name='assignment_list'),
     path('assignment/create/', views.assignment_new, name='assignment_new'),
     path('assignment/<int:pk>/edit/', views.assignment_edit, name='assignment_edit'),
@@ -26,4 +28,5 @@ urlpatterns = [
     path('course/create/', views.course_new, name='course_new'),
     path('course/<int:pk>/edit/', views.course_edit, name='course_edit'),
     path('course/<int:pk>/delete/', views.course_delete, name='course_delete'),
+	path('announcement_list', views.announcement_list, name='announcement_list'),
 ]

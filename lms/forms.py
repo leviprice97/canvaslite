@@ -16,3 +16,9 @@ class CourseForm(forms.ModelForm):
         model = Course
         fields = (
             'course_name', 'course_description', 'course_id')
+
+
+class AnnouncementForm(forms.ModelForm):
+    class Meta:
+        model = Announcement
+        fields = ('announcement_name', 'description', 'date')
