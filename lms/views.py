@@ -96,3 +96,8 @@ def course_delete(request, pk):
     course = get_object_or_404(Course, pk=pk)
     course.delete()
     return redirect('lms:course_list')
+	
+
+def announcement_list(request):
+    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    return render(request, 'lms/announcement_list.html', {'announcements': announcements})
