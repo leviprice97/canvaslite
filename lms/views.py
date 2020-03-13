@@ -101,3 +101,47 @@ def course_delete(request, pk):
 def announcement_list(request):
     announcement = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_list.html', {'announcements': announcements})
+	
+def announcement_view_public(request):
+    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    return render(request, 'lms/announcement_view_public.html', {'announcements': announcements})
+	
+def announcement_view_instructor(request):
+    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    return render(request, 'lms/announcement_view_instructor.html', {'announcements': announcements})
+
+def announcement_create_instructor(request):
+    if request.method == "POST":
+        form = AnnouncementForm(request.POST)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.created_date = timezone.now()
+            service.save()
+            announcements = Announcement.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'lms/announcement_list.html',
+                          {'announcements': announcements})
+    else:
+        form = AnnouncementForm()
+        # print("Else")
+    return render(request, 'lms/announcement_create_instructor.html', {'form': form})
+
+def announcement_edit_instructor(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
+    if request.method == "POST":
+        form = AnnouncementForm(request.POST, instance=announcement)
+        if form.is_valid():
+            announcement = form.save()
+            # service.customer = service.id
+            announcement.updated_date = timezone.now()
+            announcement.save()
+            announcements = Announcement.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'lms/announcement_list.html', {'announcements': announcements})
+    else:
+        # print("else")
+        form = AnnouncementForm(instance=announcement)
+    return render(request, 'lms/announcement_edit_instructor', {'form': form})
+
+def announcement_delete_instructor(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
+    announcement.delete()
+    return redirect('lms:announcement_list')
