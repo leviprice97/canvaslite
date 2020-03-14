@@ -47,13 +47,13 @@ class Assignment(models.Model):
 
 
 class Announcement(models.Model):
-	course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
     announcement_name = models.CharField(max_length=100)
     description = models.TextField()
-	created_date = models.DateTimeField(default=timezone.now)
-	updated_date = models.DateTimeField(auto_now_add=True)
-	
-	def created(self):
+    created_date = models.DateTimeField(default=timezone.now)
+    updated_date = models.DateTimeField(auto_now_add=True)
+    
+    def created(self):
         self.created_date = timezone.now()
         self.save()
 
