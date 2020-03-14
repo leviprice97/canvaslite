@@ -1,6 +1,7 @@
 from django import forms
 from .models import Assignment
 from .models import Course
+from .models import Announcement
 
 class AssignmentForm(forms.ModelForm):
     class Meta:
