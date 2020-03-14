@@ -11,9 +11,9 @@ def assignment_new(request):
     if request.method == "POST":
         form = AssignmentForm(request.POST)
         if form.is_valid():
-            service = form.save(commit=False)
-            service.created_date = timezone.now()
-            service.save()
+            assignment = form.save(commit=False)
+            assignment.created_date = timezone.now()
+            assignment.save()
             assignments = Assignment.objects.filter(created_date__lte=timezone.now())
             return render(request, 'lms/assignment_list.html',
                           {'assignments': assignments})
