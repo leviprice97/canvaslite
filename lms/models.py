@@ -5,8 +5,8 @@ class Course(models.Model):
     course_id = models.IntegerField(blank=False, null=False, unique=True)
     course_description = models.TextField()
     course_name = models.CharField(max_length=100)
-    created_date = models.DateTimeField(
-        default=timezone.now)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now_add=True)
 
     def created(self):
         self.created_date = timezone.now()
@@ -28,8 +28,7 @@ class Assignment(models.Model):
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
     due_date = models.DateTimeField(
         default=timezone.now)
-    created_date = models.DateTimeField(
-        default=timezone.now)
+    created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now_add=True)
     release_date = models.DateTimeField(
         default=timezone.now)
