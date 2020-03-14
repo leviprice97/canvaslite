@@ -21,4 +21,4 @@ class CourseForm(forms.ModelForm):
 class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
-        fields = ('course_id', 'announcement_name', 'description', 'created_date', 'updated_date')
+        fields = ('course_id', 'announcement_name', 'description')
