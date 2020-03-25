@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.db.models import Sum
 
+
 def home_view_public(request):
     return render(request, 'lms/home_view_public.html',
                   {'lms': home_view_public})
@@ -145,3 +146,28 @@ def announcement_delete_instructor(request, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
     announcement.delete()
     return redirect('lms:announcement_list')
+
+
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lms:file_list')
+    else:
+        form = DocumentForm()
+    return render(request, 'lms/model_form_upload.html', {
+        'form': form
+    })
+
+
+def file_list(request):
+    files = Document.objects.all()
+    return render(request, 'lms/file_list.html',
+                  {'files': files})
+
+
+def delete_file(request, pk):
+    file = get_object_or_404(Document, pk=pk)
+    file.delete()
+    return redirect('lms:file_list')
