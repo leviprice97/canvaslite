@@ -25,6 +25,16 @@
                     </li>-->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Announcement Pages
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'lms:announcement_list' %}">Announcement List</a>
+                            <a class="dropdown-item" href="{% url 'lms:announcement_create_instructor' %}">Announcement Create</a>
+                            <!--<div class="dropdown-divider"></div>-->
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Course Pages
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -40,6 +50,15 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'lms:assignment_list' %}">Assignment List</a>
                             <a class="dropdown-item" href="{% url 'lms:assignment_new' %}">Assignment Create</a>
+                            <!--<div class="dropdown-divider"></div>-->
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            File Pages
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'lms:file_list' %}">File List</a>
                             <!--<div class="dropdown-divider"></div>-->
                         </div>
                     </li>
