@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import url
 from . import views
 from django.urls import path, re_path
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 app_name = 'lms'
 urlpatterns = [
@@ -35,5 +38,11 @@ urlpatterns = [
     path('announcement/create/', views.announcement_create_instructor, name='announcement_create_instructor'),
     path('announcement/<int:pk>/edit/', views.announcement_edit_instructor, name='announcement_edit_instructor'),
     path('announcement/<int:pk>/delete/', views.announcement_delete_instructor, name='announcement_delete_instructor'),
+    path('file/upload/', views.model_form_upload, name="model_form_upload"),
+    path('file_list', views.file_list, name="file_list"),
+    path('file/<int:pk>/delete/', views.delete_file, name="delete_file"),
     path('course/<int:pk>/summary/', views.assign_summary, name='assign_summary'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

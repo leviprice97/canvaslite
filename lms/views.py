@@ -154,7 +154,32 @@ def announcement_delete_instructor(request, pk):
     return redirect('lms:announcement_list')
 
 
-def assign_summary(request, pk):
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lms:file_list')
+    else:
+        form = DocumentForm()
+    return render(request, 'lms/model_form_upload.html', {
+        'form': form
+    })
+
+
+def file_list(request):
+    files = Document.objects.all()
+    return render(request, 'lms/file_list.html',
+                  {'files': files})
+
+
+def delete_file(request, pk):
+    file = get_object_or_404(Document, pk=pk)
+    file.delete()
+    return redirect('lms:file_list')
+  
+  
+  def assign_summary(request, pk):
     course = get_object_or_404(Course, pk=pk)
     courses = Course.objects.filter(created_date__lte=timezone.now())
     assignments = Assignment.objects.filter(course_id=pk)
