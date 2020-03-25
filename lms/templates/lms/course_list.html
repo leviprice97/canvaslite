@@ -48,9 +48,13 @@
                            class="btn btn-warning">Edit</a></td>
 
 
-                    <td><a href="{% url 'lms:course_delete' pk=course:wq.pk %}"
+                    <td><a href="{% url 'lms:course_delete' pk=course.pk %}"
                            onclick="return confirm('Are you sure you want to delete?')"
                            class="btn btn-danger">Delete</a>
+                    </td>
+
+                    <td><a href="{% url 'lms:assign_summary' pk=course.pk %}"
+                           class="btn btn-primary">Summary</a>
                     </td>
 
                 </tr>

@@ -6,17 +6,19 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.db.models import Sum
 
+
 def home_view_public(request):
     return render(request, 'lms/home_view_public.html',
                   {'lms': home_view_public})
+
 
 def assignment_new(request):
     if request.method == "POST":
         form = AssignmentForm(request.POST)
         if form.is_valid():
-            service = form.save(commit=False)
-            service.created_date = timezone.now()
-            service.save()
+            assignment = form.save(commit=False)
+            assignment.created_date = timezone.now()
+            assignment.save()
             assignments = Assignment.objects.filter(created_date__lte=timezone.now())
             return render(request, 'lms/assignment_list.html',
                           {'assignments': assignments})
@@ -96,8 +98,89 @@ def course_delete(request, pk):
     course = get_object_or_404(Course, pk=pk)
     course.delete()
     return redirect('lms:course_list')
-	
+
 
 def announcement_list(request):
     announcement = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_list.html', {'announcements': announcements})
+
+
+def announcement_view_public(request):
+    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    return render(request, 'lms/announcement_view_public.html', {'announcements': announcements})
+
+
+def announcement_view_instructor(request):
+    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    return render(request, 'lms/announcement_view_instructor.html', {'announcements': announcements})
+
+
+def announcement_create_instructor(request):
+    if request.method == "POST":
+        form = AnnouncementForm(request.POST)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.created_date = timezone.now()
+            service.save()
+            announcements = Announcement.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'lms/announcement_list.html',
+                          {'announcements': announcements})
+    else:
+        form = AnnouncementForm()
+        # print("Else")
+    return render(request, 'lms/announcement_create_instructor.html', {'form': form})
+
+
+def announcement_edit_instructor(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
+    if request.method == "POST":
+        form = AnnouncementForm(request.POST, instance=announcement)
+        if form.is_valid():
+            announcement = form.save()
+            # service.customer = service.id
+            announcement.updated_date = timezone.now()
+            announcement.save()
+            announcements = Announcement.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'lms/announcement_list.html', {'announcements': announcements})
+    else:
+        # print("else")
+        form = AnnouncementForm(instance=announcement)
+    return render(request, 'lms/announcement_edit_instructor', {'form': form})
+
+
+def announcement_delete_instructor(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
+    announcement.delete()
+    return redirect('lms:announcement_list')
+
+
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('lms:file_list')
+    else:
+        form = DocumentForm()
+    return render(request, 'lms/model_form_upload.html', {
+        'form': form
+    })
+
+
+def file_list(request):
+    files = Document.objects.all()
+    return render(request, 'lms/file_list.html',
+                  {'files': files})
+
+
+def delete_file(request, pk):
+    file = get_object_or_404(Document, pk=pk)
+    file.delete()
+    return redirect('lms:file_list')
+  
+  
+  def assign_summary(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    courses = Course.objects.filter(created_date__lte=timezone.now())
+    assignments = Assignment.objects.filter(course_id=pk)
+    return render(request, 'lms/assignment_summary.html', ({'assignments': assignments, 'courses': courses}))
