@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{% url 'lms:home_view_public' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
@@ -35,11 +35,30 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Announcement Pages
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'lms:announcement_list' %}">Announcement List</a>
+                            <a class="dropdown-item" href="{% url 'lms:announcement_create_instructor' %}">Announcement Create</a>
+                            <!--<div class="dropdown-divider"></div>-->
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Assignment Pages
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'lms:assignment_list' %}">Assignment List</a>
                             <a class="dropdown-item" href="{% url 'lms:assignment_new' %}">Assignment Create</a>
+                            <!--<div class="dropdown-divider"></div>-->
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            File Pages
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'lms:file_list' %}">File List</a>
                             <!--<div class="dropdown-divider"></div>-->
                         </div>
                     </li>

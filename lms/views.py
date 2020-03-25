@@ -101,17 +101,17 @@ def course_delete(request, pk):
 
 
 def announcement_list(request):
-    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    announcements = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_list.html', {'announcements': announcements})
 
 
 def announcement_view_public(request):
-    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    announcements = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_view_public.html', {'announcements': announcements})
 
 
 def announcement_view_instructor(request):
-    announcement = Announcement.objects.filter(created_date__lte=timezone.now())
+    announcements = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_view_instructor.html', {'announcements': announcements})
 
 
@@ -178,8 +178,8 @@ def delete_file(request, pk):
     file.delete()
     return redirect('lms:file_list')
   
-  
-  def assign_summary(request, pk):
+
+def assign_summary(request, pk):
     course = get_object_or_404(Course, pk=pk)
     courses = Course.objects.filter(created_date__lte=timezone.now())
     assignments = Assignment.objects.filter(course_id=pk)
