@@ -41,6 +41,7 @@ urlpatterns = [
     path('file/upload/', views.model_form_upload, name="model_form_upload"),
     path('file_list', views.file_list, name="file_list"),
     path('file/<int:pk>/delete/', views.delete_file, name="delete_file"),
+    path('course/<int:pk>/summary/', views.assign_summary, name='assign_summary'),
 ]
 
 if settings.DEBUG:

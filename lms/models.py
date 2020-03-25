@@ -7,7 +7,7 @@ class Course(models.Model):
     course_description = models.TextField()
     course_name = models.CharField(max_length=100)
     created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
     def created(self):
         self.created_date = timezone.now()
@@ -26,11 +26,11 @@ class Assignment(models.Model):
     a_description = models.TextField()
     assignment_points = models.IntegerField()
     assignment_file_path = models.CharField(max_length=100)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='assignments')
     due_date = models.DateTimeField(
         default=timezone.now)
     created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
     release_date = models.DateTimeField(
         default=timezone.now)
 
@@ -47,12 +47,12 @@ class Assignment(models.Model):
 
 
 class Announcement(models.Model):
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='courses')
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='announcements')
     announcement_name = models.CharField(max_length=100)
     description = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    updated_date = models.DateTimeField(auto_now_add=True)
-    
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
     def created(self):
         self.created_date = timezone.now()
         self.save()

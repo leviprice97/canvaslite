@@ -53,6 +53,10 @@
                            class="btn btn-danger">Delete</a>
                     </td>
 
+                    <td><a href="{% url 'lms:assign_summary' pk=course.pk %}"
+                           class="btn btn-primary">Summary</a>
+                    </td>
+
                 </tr>
             {% endfor %}
             </tbody>

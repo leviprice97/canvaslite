@@ -11,6 +11,7 @@ def home_view_public(request):
     return render(request, 'lms/home_view_public.html',
                   {'lms': home_view_public})
 
+
 def assignment_new(request):
     if request.method == "POST":
         form = AssignmentForm(request.POST)
@@ -97,19 +98,22 @@ def course_delete(request, pk):
     course = get_object_or_404(Course, pk=pk)
     course.delete()
     return redirect('lms:course_list')
-	
+
 
 def announcement_list(request):
     announcement = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_list.html', {'announcements': announcements})
-	
+
+
 def announcement_view_public(request):
     announcement = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_view_public.html', {'announcements': announcements})
-	
+
+
 def announcement_view_instructor(request):
     announcement = Announcement.objects.filter(created_date__lte=timezone.now())
     return render(request, 'lms/announcement_view_instructor.html', {'announcements': announcements})
+
 
 def announcement_create_instructor(request):
     if request.method == "POST":
@@ -126,6 +130,7 @@ def announcement_create_instructor(request):
         # print("Else")
     return render(request, 'lms/announcement_create_instructor.html', {'form': form})
 
+
 def announcement_edit_instructor(request, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
     if request.method == "POST":
@@ -141,6 +146,7 @@ def announcement_edit_instructor(request, pk):
         # print("else")
         form = AnnouncementForm(instance=announcement)
     return render(request, 'lms/announcement_edit_instructor', {'form': form})
+
 
 def announcement_delete_instructor(request, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
@@ -171,3 +177,10 @@ def delete_file(request, pk):
     file = get_object_or_404(Document, pk=pk)
     file.delete()
     return redirect('lms:file_list')
+  
+  
+  def assign_summary(request, pk):
+    course = get_object_or_404(Course, pk=pk)
+    courses = Course.objects.filter(created_date__lte=timezone.now())
+    assignments = Assignment.objects.filter(course_id=pk)
+    return render(request, 'lms/assignment_summary.html', ({'assignments': assignments, 'courses': courses}))
