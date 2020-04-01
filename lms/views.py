@@ -145,7 +145,7 @@ def announcement_edit_instructor(request, pk):
     else:
         # print("else")
         form = AnnouncementForm(instance=announcement)
-    return render(request, 'lms/announcement_edit_instructor', {'form': form})
+    return render(request, 'lms/announcement_edit_instructor.html', {'form': form})
 
 
 def announcement_delete_instructor(request, pk):
