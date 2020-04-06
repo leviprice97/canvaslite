@@ -1,0 +1,5 @@
+django 2.2.12
+django braces
+upgrade pip
+pillow
+embed-video 1.1.2
