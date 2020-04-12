@@ -1,3 +1,5 @@
-Django~=2.2.4
-django-mathfilters
-Django-crispy-forms
+Django~=2.2.12
+Pip~=20.0.2
+Pillow
+Django-braces
+Django-embed-video~=1.1.2

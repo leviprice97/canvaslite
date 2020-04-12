@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 
 # C extensions
+*.idea
+.idea*
 *.so
 
 # Distribution / packaging
@@ -129,3 +131,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#ignore uploaded media
+educa/media
+files
+
+#ignore vscode
+.vscode
