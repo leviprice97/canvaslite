@@ -1,7 +1,3 @@
-
-
-
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -138,3 +134,7 @@ dmypy.json
 
 #ignore uploaded media
 educa/media
+files
+
+#ignore vscode
+.vscode
