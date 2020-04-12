@@ -3,20 +3,20 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
+<body class="text-center">
   <h1>Log-in</h1>
-  <div class="module">
     {% if form.errors %}
-      <p>Your username and password didn't match. Please try again.</p>
+    <h1 class="h3 mb-1 font-weight-normal">Your username and password didn't match. Please try again.</h1>
     {% else %}
-      <p>Please, use the following form to log-in:</p>
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     {% endif %}
     <div class="login-form">
       <form action="{% url 'login' %}" method="post">
         {{ form.as_p }}
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}" />
-        <p><input type="submit" value="Log-in"></p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
     </div>
-  </div>
+</body>
 {% endblock %}
