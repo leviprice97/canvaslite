@@ -3,9 +3,9 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-<body class="text-center">
   <h1>Log-in</h1>
     {% if form.errors %}
+    <div class="module">
     <h1 class="h3 mb-1 font-weight-normal">Your username and password didn't match. Please try again.</h1>
     {% else %}
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
@@ -18,5 +18,5 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
     </div>
-</body>
+  </div>
 {% endblock %}
