@@ -111,3 +111,15 @@ class Content(models.Model):
 		file = models.FileField(upload_to='files')
 		due_date = models.DateTimeField(
 		default=timezone.now)
+
+
+class StudentGrade(models.Model):
+	course = models.ForeignKey(Course,
+						   related_name='student_grade_course',
+						   on_delete=models.CASCADE)
+	student = models.ForeignKey(User,
+						   related_name='student_grade_student',
+						   on_delete=models.CASCADE)	
+	assignment = models.ForeignKey(Content, related_name='student_grade_assignment',
+							   on_delete=models.CASCADE)
+	points = models.IntegerField()

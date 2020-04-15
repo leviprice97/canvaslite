@@ -20,6 +20,10 @@ urlpatterns = [
     path('module/<int:module_id>/content/<model_name>/create/',
          views.ContentCreateUpdateView.as_view(),
          name='module_content_create'),
+	
+	path('<pk>/gradebook',
+		views.CourseGradebook.as_view(),
+		name='course_gradebook'),
 
     path('module/<int:module_id>/content/<model_name>/<id>/',
          views.ContentCreateUpdateView.as_view(),
