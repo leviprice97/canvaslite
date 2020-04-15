@@ -218,3 +218,9 @@ ul#course-modules li:hover {
     padding-left:10px;
 }
 
+img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+  }
