@@ -9,19 +9,22 @@
 {% endblock %}
 
 {% block content %}
-  <h1>
-    {% if object %}
-      Edit course "{{ object.title }}"
-    {% else %}
-      Create a new course
-    {% endif %}
-  </h1>
-  <div class="module">
-    <h2>Course info</h2>
-    <form action="." method="post">
-      {{ form.as_p }}
-      {% csrf_token %}
-      <p><input type="submit" value="Save course"></p>
-    </form>
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+      <div class="col py-3 px-lg-5 border bg-light">
+        <h1>
+          {% if object %}
+            Edit course "{{ object.title }}"
+          {% else %}
+            Create a new course
+          {% endif %}
+        </h1>
+        <form action="." method="post">
+          {{ form.as_p }}
+          {% csrf_token %}
+          <input class="btn btn-primary" type="submit" value="Save course">
+        </form>
+    </div>
   </div>
+</div>
 {% endblock %}
