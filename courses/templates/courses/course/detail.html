@@ -6,30 +6,26 @@
     <div class="container px-lg-5">
         <div class="row mx-lg-n5">
           <div class="col py-3 px-lg-5 border bg-light">
-            <div class="text-center">
-                {% with subject=course.subject %}
-                <h1>
-                    {{ object.title }}
-                </h1>
-                <h2>Overview</h2>
-                    Subject: <a href="{% url "course_list_subject" subject.slug %}">{{ subject.title }}</a><br>
-                    Number of Modules: {{ course.modules.count }}<br>
-                    Instructor: {{ course.owner.get_full_name }}<br><br>
-                    Course Description:<br>
-                    {{ object.overview}}<br><br>
-                    {% if request.user.is_authenticated %}
-                        <form action="{% url "student_enroll_course" %}" method="post">
-                            {{ enroll_form }}
-                            {% csrf_token %}
-                            <input type="submit" class="button" value="Enroll now">
-                        </form>
-                    {% else %}
-                        <a href="{% url "student_registration" %}" class="button">
-                            Register to enroll
-                        </a>
-                {% endif %}
-                {% endwith %}
-            </div>
+            {% with subject=course.subject %}
+            <h1>
+                {{ object.title }}
+            </h1>
+            <h2>Overview</h2>
+                Subject: <a href="{% url "course_list_subject" subject.slug %}">{{ subject.title }}</a><br>
+                Number of Modules: {{ course.modules.count }}<br>
+                Instructor: {{ course.owner.get_full_name }}<br><br>
+                Course Description:<br>
+                {{ object.overview}}<br><br>
+                {% if request.user.is_authenticated %}
+                    <form action="{% url "student_enroll_course" %}" method="post">
+                        {{ enroll_form }}
+                        {% csrf_token %}
+                        <input class="btn btn-primary" type="submit"  value="Enroll now">
+                    </form>
+                {% else %}
+                <a role="button" class="btn btn-primary" href="{% url "student_registration" %}" class="button">Register to enroll</a>
+            {% endif %}
+            {% endwith %}
           </div>
         </div>
       </div>
