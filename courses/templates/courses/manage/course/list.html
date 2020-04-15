@@ -3,28 +3,35 @@
 {% block title %}My courses{% endblock %}
 
 {% block content %}
-  <h1>My courses</h1>
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+      <div class="col py-3 px-lg-5 border bg-light">
+        <h1>My courses</h1>
+        <div class="row mb-3"></div>
+          {% for course in object_list %}
+          <div class="col-md-6 border px-lg-5">
+            <h3 class="mb-0">{{ course.title }}</h3>
+            <div class="mb-1 text-muted">{{ course.slug }}</div>
+            <p>
+              <button type="button" class="btn btn-primary" href="{% url "course_edit" course.id %}">Edit</button>
+              <button type="button" class="btn btn-primary" href="{% url "course_delete" course.id %}">Delete</button>
+              <button type="button" class="btn btn-primary" href="{% url "course_module_update" course.id %}">Edit modules</button>
+              {% if course.modules.count > 0 %}
+              <button type="button" class="btn btn-primary" href="{% url "module_content_list" course.modules.first.id %}">Manage contents</button>
+              {% endif %}
+            </p>
+          {% empty %}
+          <p>You haven't created any courses yet.</p>
+          {% endfor %}
+          </div>
+          <br>
+          <p>
+          <button type="button" class="btn btn-primary" href="{% url "course_create" %}" class="button">Create new course</button>
+          </p>
 
-  <div class="module">
-    {% for course in object_list %}
-      <div class="course-info">
-        <h3>{{ course.title }}</h3>
-        <p>
-          <a href="{% url "course_edit" course.id %}">Edit</a>
-          <a href="{% url "course_delete" course.id %}">Delete</a>
-          <a href="{% url "course_module_update" course.id %}">Edit modules</a>
-          <a href="{% url "course_module_update" course.id %}">Edit modules</a>
-          {% if course.modules.count > 0 %}
-          <a href="{% url "module_content_list" course.modules.first.id %}">
-           Manage contents</a>
-          {% endif %}
-        </p>
-      </div>
-    {% empty %}
-      <p>You haven't created any courses yet.</p>
-    {% endfor %}
-    <p>
-      <a href="{% url "course_create" %}" class="button">Create new course</a>
-    </p>
+        </div>
   </div>
-{% endblock %}
+</div>
+  
+
+        {% endblock %}
