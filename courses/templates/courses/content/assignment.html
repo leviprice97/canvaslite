@@ -1,0 +1,4 @@
+{{ item.description|linebreaks|safe }}
+<p>Points: {{ item.points|safe }}</p>
+<p>Assignment Due: {{ item.due_date|safe }}</p>
+<p><a href="{{ item.file.url }}" class="button">Download file</a></p>
