@@ -5,34 +5,49 @@
 {% endblock %}
 
 {% block content %}
-    <h1>
-        {{ module.title }}
-    </h1>
-    <div class="contents">
-        <h3>Modules</h3>
-        <ul id="modules">
-        {% for m in object.modules.all %}
-            <li data-id="{{ m.id }}" {% if m == module %}class="selected" {% endif %}>
-                <a href="{% url "student_course_detail_module" object.id m.id %}">
-                    <span>
-                        Module <span class="order">{{ m.order|add:1 }}
-                    </span>
-                    </span>
+<div class="container px-lg-5">
+    <div class="row mx-lg-n5">
+        <div class="col py-3 px-lg-5 border bg-light">
+            <div class="border">
+                <h3>Modules</h3><br>
+                {% for m in object.modules.all %}
+                    <div class="col-lg-5 border">
+                        <div class="row mx-lg-n1">
+                            <a href="{% url "student_course_detail_module" object.id m.id %}"> Module {{ m.order|add:1 }} | {{ m.title }}</a>
+                        </div>
+                    </div>
+                {% empty %}
+                <div class="col-5 border">
+                    No modules yet.
+                </div>
+                {% endfor %}
+            </div>
+            <br>
+            <div class="border">
+                <h3>
+                    {{ module.title }}
+                </h3>
+                <br>
+                {% for content in module.contents.all %}
+                    {% with item=content.item %}
+                    <div class="col-lg-5 border">
+                        <div class="row mx-lg-n1">
+                            <h3>{{ item.title }}</h3>
+                        </div>
+                        <div class="row mx-lg-n1">
+                        {{ item.render }}
+                        </div>
+                    </div>
+                    {% endwith %}
+                    {% empty %}
+                    <div class="col-5 border">
+                        No content yet.
+                    </div>
                     <br>
-                    {{ m.title }}
-                </a>
-            </li>
-        {% empty %}
-            <li>No modules yet.</li>
-        {% endfor %}
-        </ul>
+                {% endfor %}
+                <br>
+            </div>
+        </div>
     </div>
-    <div class="module">
-        {% for content in module.contents.all %}
-            {% with item=content.item %}
-                <h2>{{ item.title }}</h2>
-                {{ item.render }}
-            {% endwith %}
-        {% endfor %}
-    </div>
+</div>
 {% endblock %}
