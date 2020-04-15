@@ -5,15 +5,21 @@
 {% endblock %}
 
 {% block content %}
-    <h1>
-        Sign up
-    </h1>
-    <div class="module">
-        <p>Enter your details to create an account:</p>
-        <form action="" method="post">
-            {{ form.as_p }}
-            {% csrf_token %}
-            <p><input type="submit" value="Create my account"></p>
-        </form>
+<div class="container ">
+    <div class="row">
+        <div class="col py-3 border bg-light">
+            <h1>
+                Sign up
+            </h1>
+            <div class="module">
+                <p>Enter your details to create an account:</p>
+                <form action="" method="post">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <p><input type="submit" value="Create my account"></p>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}
