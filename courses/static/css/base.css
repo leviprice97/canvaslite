@@ -16,23 +16,10 @@ ul {
     float:left;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family:'Roboto', sans-serif;
-    font-weight:300;
-}
-
-h1 {
-    background:#efefef;
-    width:100%;
-    overflow:auto;
-    padding:20px 0 20px 40px;
-    margin:0;
-}
-
 .module {
     padding:10px 20px;
     float:left;
-    width:600px;
+
 }
 
 .module h3 {
@@ -167,27 +154,6 @@ select {
     width:324px;
 }
 
-input[type=submit], a.button {
-    border-radius:5px;
-    background:#4dcc43;
-    color:#fff;
-    font-size:16px;
-    text-transform:uppercase;
-    border:none;
-    padding:10px 20px;
-    margin:20px 0;
-}
-
-a.secondary-button {
-    border:3px solid #4dcc43;
-    padding:10px 20px;
-    margin:10px 0;
-}
-
-input[type=submit]:hover, a.button:hover {
-    background:#3fad37;
-}
-
 ul#course-modules {
     list-style:none;
     overflow:auto;
@@ -223,14 +189,6 @@ ul#course-modules li:hover {
     padding:0;
 }
 
-#module-contents input[type=submit] {
-    color:#3fad37;
-    background:none;
-    margin:-20px 0 0;
-    padding:0;
-    float:left;
-    text-transform:none;
-}
 
 #module-contents div:hover {
     cursor:move;
@@ -249,6 +207,12 @@ ul#course-modules li:hover {
 }
 
 .helptext {
-    color:#ccc;
-    padding-left:20px;
+    padding-left:10px;
 }
+
+img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+  }
