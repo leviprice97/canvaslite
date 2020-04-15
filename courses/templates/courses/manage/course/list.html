@@ -13,11 +13,11 @@
             <h3 class="mb-0">{{ course.title }}</h3>
             <div class="mb-1 text-muted">{{ course.slug }}</div>
             <p>
-              <button type="button" class="btn btn-primary" href="{% url "course_edit" course.id %}">Edit</button>
-              <button type="button" class="btn btn-primary" href="{% url "course_delete" course.id %}">Delete</button>
-              <button type="button" class="btn btn-primary" href="{% url "course_module_update" course.id %}">Edit modules</button>
+              <a role="button" class="btn btn-primary" href="{% url "course_edit" course.id %}">Edit</a>
+              <a rolee="button" class="btn btn-primary" href="{% url "course_delete" course.id %}">Delete</a>
+              <a role="button" class="btn btn-primary" href="{% url "course_module_update" course.id %}">Edit modules</a>
               {% if course.modules.count > 0 %}
-              <button type="button" class="btn btn-primary" href="{% url "module_content_list" course.modules.first.id %}">Manage contents</button>
+              <a role="button" class="btn btn-primary" href="{% url "module_content_list" course.modules.first.id %}">Manage contents</a>
               {% endif %}
             </p>
           {% empty %}
@@ -26,7 +26,7 @@
           </div>
           <br>
           <p>
-          <button type="button" class="btn btn-primary" href="{% url "course_create" %}" class="button">Create new course</button>
+          <a role="button" class="btn btn-primary" href="{% url "course_create" %}" class="button">Create new course</a>
           </p>
 
         </div>
