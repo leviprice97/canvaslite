@@ -17,7 +17,7 @@
                 Course Description:<br>
                 {{ object.overview}}<br><br>
                 Announcements:<br>
-                This will display an announcements list for the course<br><br>
+                (Announcements will be displayed once created)<br><br>
                 {% if request.user.is_authenticated %}
                     <form action="{% url "student_enroll_course" %}" method="post">
                         {{ enroll_form }}

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, \
     DeleteView
-from .models import Course
+from .models import Course, Announcement
 from django.contrib.auth.mixins import LoginRequiredMixin, \
     PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404

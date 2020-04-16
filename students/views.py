@@ -6,7 +6,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CourseEnrollForm
 from django.views.generic.list import ListView
-from courses.models import Course
+from courses.models import Course, Announcement
 from django.views.generic.detail import DetailView
 
 
@@ -70,3 +70,12 @@ class StudentCourseDetailView(DetailView):
             # get first module
             context['module'] = course.modules.all()[0]
         return context
+
+
+class AnnouncementListView(LoginRequiredMixin, ListView):
+    model = Announcement
+    template_name = 'students/course/list.html'
+
+    def get_queryset(self):
+        qs = super(AnnouncementListView, self).get_queryset()
+        return qs
