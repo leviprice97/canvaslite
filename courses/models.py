@@ -67,7 +67,8 @@ class Content(models.Model):
                                          'video',
                                          'image',
                                          'file',
-                                         'assignment')})
+                                         'assignment',
+                                         'announcement')})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
     order = OrderField(blank=True, for_fields=['module'])
@@ -109,13 +110,7 @@ class Content(models.Model):
         description = models.TextField()
         points = models.IntegerField()
         file = models.FileField(upload_to='files')
-        due_date = models.DateTimeField(
-            default=timezone.now)
+        due_date = models.DateTimeField(default=timezone.now)
 
-
-class Announcement(models.Model):
-    course_name = models.CharField(max_length=200)
-    name = models.CharField(max_length=50)
-    description = models.TextField()
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now_add=True)
+    class Announcement(ItemBase):
+        description = models.TextField()
