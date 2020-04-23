@@ -5,22 +5,34 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="container px-lg-5">
     <div class="row mx-lg-n5">
         <div class="col py-3 px-lg-5 border bg-light">
             <div class="border">
                 <h3>Modules</h3><br>
+
                 {% for m in object.modules.all %}
+                    {% if not m.is_true %}
+
                     <div class="col-lg-5 border">
                         <div class="row mx-lg-n1">
-                            <a href="{% url "student_course_detail_module" object.id m.id %}"> Module {{ m.order|add:1 }} | {{ m.title }}</a>
+                            <a href="{% url 'student_course_detail_module' object.id m.id %}"> Module {{ m.order|add:1 }} | {{ m.title }}</a>
                         </div>
                     </div>
+                    {% else %}
+                <div class="col-5 border">
+                    No modules available.
+                </div>
+
+                    {% endif %}
                 {% empty %}
                 <div class="col-5 border">
                     No modules yet.
                 </div>
+
                 {% endfor %}
+
             </div>
             <br>
             <div class="border">
@@ -28,6 +40,8 @@
                     {{ module.title }}
                 </h3>
                 <br>
+
+
                 {% for content in module.contents.all %}
                     {% with item=content.item %}
                     <div class="col-lg-5 border">
@@ -44,10 +58,14 @@
                         No content yet.
                     </div>
                     <br>
+
                 {% endfor %}
+
+
                 <br>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
