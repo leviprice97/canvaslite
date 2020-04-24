@@ -16,6 +16,8 @@
                 Instructor: {{ course.owner.get_full_name }}<br><br>
                 Course Description:<br>
                 {{ object.overview}}<br><br>
+                Announcements:<br>
+                (Announcements will be displayed once created)<br><br>
                 {% if request.user.is_authenticated %}
                     <form action="{% url "student_enroll_course" %}" method="post">
                         {{ enroll_form }}

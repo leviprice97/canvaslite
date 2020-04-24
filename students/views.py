@@ -6,8 +6,8 @@ from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CourseEnrollForm
 from django.views.generic.list import ListView
-from courses.models import Course
 from django.views.generic.detail import DetailView
+from courses.models import Course
 
 
 class StudentRegistrationView(CreateView):
