@@ -6,21 +6,21 @@
 {% endblock %}
 
 {% block content %}
-<div class="container px-lg-5">
-  <div class="row mx-lg-n5">
-    <div class="col py-3 px-lg-5 border bg-light">
+<div class="container">
+  <div class="row">
+    <div class="col border bg-light">
       {% with course=module.course %}
         <h1>Course "{{ course.title }}"</h1>
         <div class="border">
             <h3>Modules</h3>
               {% for m in course.modules.all %}
-              <div class="col-lg-5 border">
+              <div class="col border">
                   <a href="{% url "module_content_list" m.id %}">
                       Module <span class="order">{{ m.order|add:1 }} | {{ m.title }}
                   </a>
               </div>
               {% empty %}
-              <div class="col-5 border">
+              <div class="col border">
               No modules yet.
               </div>
               {% endfor %}
@@ -37,11 +37,11 @@
             {% for content in module.contents.all %}
               <div data-id="{{ content.id }}">
                 {% with item=content.item %}
-                <div class="col-lg-5 border">
-                  <div class="row mx-lg-n1">
+                <div class="col border">
+                  <div class="row">
                   <p>{{ item }} ({{ item|model_name }})</p>
                   </div>
-                  <div class="row mx-lg-n1">
+                  <div class="row">
                     <a role="button" class="btn btn-primary" href="{% url "module_content_update" module.id item|model_name item.id %}">Edit</a>
                     <form action="{% url "module_content_delete" content.id %}" method="post">
                       <input class="btn btn-primary" type="submit" value="Delete">{% csrf_token %}</form>
@@ -51,14 +51,13 @@
               </div>
                 {% endwith %}
             {% empty %}
-            <div class="col-5 border">
+            <div class="col border">
               This module has no contents yet.
             </div>
             {% endfor %}
           </div>
 
           <h3>Add new content:</h3>
-          <ul class="content-types">
             <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "text" %}">
             Text</a>
             <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "image" %}">
@@ -71,7 +70,6 @@
             Assignment</a>
               <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "announcement" %}">
             Announcement</a>
-          </ul>
         </div>
       {% endwith %}
     </div>
