@@ -1,10 +1,8 @@
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, \
-    DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Course
-from django.contrib.auth.mixins import LoginRequiredMixin, \
-    PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import TemplateResponseMixin, View
 from .forms import ModuleFormSet
@@ -102,7 +100,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
     template_name = 'courses/manage/content/form.html'
 
     def get_model(self, model_name):
-        if model_name in ['text', 'video', 'image', 'file']:
+        if model_name in ['text', 'video', 'image', 'file', 'assignment', 'announcement']:
             return apps.get_model(app_label='courses',
                                   model_name=model_name)
         return None

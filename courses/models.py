@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from .fields import OrderField
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from django.utils import timezone
 
 
 class Subject(models.Model):
@@ -65,7 +66,9 @@ class Content(models.Model):
                                          'text',
                                          'video',
                                          'image',
-                                         'file')})
+                                         'file',
+                                         'assignment',
+                                         'announcement')})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
     order = OrderField(blank=True, for_fields=['module'])
@@ -102,3 +105,12 @@ class Content(models.Model):
 
     class Video(ItemBase):
         url = models.URLField()
+
+    class Assignment(ItemBase):
+        description = models.TextField()
+        points = models.IntegerField()
+        file = models.FileField(upload_to='files')
+        due_date = models.DateTimeField(default=timezone.now)
+
+    class Announcement(ItemBase):
+        description = models.TextField()

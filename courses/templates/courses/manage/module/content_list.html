@@ -67,6 +67,10 @@
             Video</a>
             <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "file" %}">
             File</a>
+            <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "assignment" %}">
+            Assignment</a>
+              <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "announcement" %}">
+            Announcement</a>
           </ul>
         </div>
       {% endwith %}
