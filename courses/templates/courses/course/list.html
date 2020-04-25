@@ -8,16 +8,16 @@
     {% endif %}
 {% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col border bg-light">
+    <div class="container px-lg-5">
+        <div class="row mx-lg-n5">
+            <div class="col py-3 px-lg-5 border bg-light">
                 <h1>Subjects</h1>
-                    <div class="row">
-                        <div class="col border">
+                    <div class="row mb-3">
+                        <div class="col-md-6 border px-lg-5">
                             <a href="{% url "course_list" %}">All</a><br>
                         </div>
                         {% for s in subjects %}
-                        <div class="col border">
+                        <div class="col-md-6 border px-lg-5">
                             <a href="{% url "course_list_subject" s.slug %}">{{ s.title }} | {{ s.total_courses }} courses</a>
                         </div>
                         {% endfor %}
@@ -29,9 +29,9 @@
                         All courses
                     {% endif %}
                 </h1>
-                <div class="row">
+                <div class="row mb-3">
                     {% for course in courses %}
-                    <div class="col border">
+                    <div class="col-md-6 border px-lg-5">
                         {% with subject=course.subject %}
                             <h3><a href="{% url "course_detail" course.slug %}"><br>
                             {{ course.title }}</a></h3>
