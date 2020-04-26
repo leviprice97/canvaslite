@@ -73,6 +73,9 @@ class Grade(models.Model):
 	
 	def __str__(self):
 		return assignment.title
+		
+	def get_grade(self):
+		return self.grade
 
 class Module(models.Model):
 	course = models.ForeignKey(Course,
@@ -109,6 +112,17 @@ class Content(models.Model):
 	item = GenericForeignKey('content_type', 'object_id')
 	order = OrderField(blank=True, for_fields=['module'])
 
+	def get_content_id(self):
+		return self.id
+		
+	def get_module_assign_content_id(self, assignID):
+		if self.content_type.id == 10:
+			 
+			module_assign = self.Module_Assignment.objects.get(id=self.object_id)
+			if module_assign.assign.id == assignID:
+				return self.id
+		return None
+
 	class Meta:
 		ordering = ['order']
 
@@ -144,6 +158,12 @@ class Content(models.Model):
 
 	class Module_Assignment(ItemBase):
 		assign = models.ForeignKey(Assignment, related_name='assignment_link', on_delete=models.CASCADE)
+		
+		def delete(self):
+			print(self.id)
+			ItemContent = Content.objects.get(id=self.id)
+			print(ItemContent)
+			ItemContent.delete()
 
 	class Announcement(ItemBase):
 		description = models.TextField()

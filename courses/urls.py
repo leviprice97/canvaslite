@@ -17,6 +17,8 @@ urlpatterns = [
     path('<pk>/module/',
          views.CourseModuleUpdateView.as_view(),
          name='course_module_update'),
+		 
+		 
     path('module/<int:module_id>/content/<model_name>/create/',
          views.ContentCreateUpdateView.as_view(),
          name='module_content_create'),
@@ -26,12 +28,16 @@ urlpatterns = [
     path('content/<int:id>/delete/',
          views.ContentDeleteView.as_view(),
          name='module_content_delete'),
+		 
+		 
     path('module/<int:module_id>/',
          views.ModuleContentListView.as_view(),
          name='module_content_list'),
     path('module/order/',
          views.ModuleOrderView.as_view(),
          name='module_order'),
+		 
+		 
     path('content/order/',
          views.ContentOrderView.as_view(),
          name='content_order'),
@@ -44,11 +50,19 @@ urlpatterns = [
     path('<slug:slug>/',
          views.CourseDetailView.as_view(),
          name='course_detail'),
+		 
+		 
 	path('<pk>/assignments/create',
 		views.AssignmentCreateView.as_view(),
 		name='course_assignment_create'),	 
 	path('<pk>/assignments/<int:assignment_id>/edit',
 		views.AssignmentUpdateView.as_view(),
 		name='course_assignment_update'),
+	path('<pk>/assignments/<int:assignment_id>/delete',
+		views.AssignmentDeleteView.as_view(),
+		name='course_assignment_delete'),
+	path('<pk>/grades/',
+		views.CourseGradeList.as_view(),
+		name='course_grade_list'),
 
 ]

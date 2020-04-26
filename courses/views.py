@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Course
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic.base import TemplateResponseMixin, View
+from django.views.generic.base import TemplateResponseMixin, View, TemplateView
 from .forms import ModuleFormSet
 from django.forms.models import modelform_factory
 from django.apps import apps
@@ -14,7 +14,8 @@ from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 from django.db.models import Count
 from .models import Subject
 from students.forms import CourseEnrollForm
-from .models import Assignment
+from .models import Assignment, Grade
+from django.contrib.contenttypes.models import ContentType
 
 
 class OwnerMixin(object):
@@ -91,8 +92,20 @@ class AssignmentCreateView(OwnerAssignmentEditMixin, CreateView):
 	fields = ['title', 'description', 'points', 'file', 'due_date']
 	model = Assignment
 
-		
+class AssignmentDeleteView(View):
 	
+	def post(self, request, pk, assignment_id):
+		assignment = get_object_or_404(Assignment,
+									id=assignment_id)
+		content_list = []
+		for item in list(Content.objects.all()):
+			newid = item.get_module_assign_content_id(assignment_id)
+			if newid is not None:
+				content_list.append(newid)
+		assignment.delete()
+		for content in content_list:
+			Content.objects.get(id=content).delete()
+		return redirect('course_assignment_list', pk)
 	
 
 
@@ -110,7 +123,9 @@ class CourseAssignmentList(OwnerAssignmentMixin, ListView):
 
 
 
-
+class CourseGradeList(TemplateView):
+	template_name = 'courses/course/gradeList.html'
+	grade = Grade.objects.all()
 
 
 class CourseModuleUpdateView(TemplateResponseMixin, View):
