@@ -8,7 +8,7 @@ from django.views.generic.base import TemplateResponseMixin, View
 from .forms import ModuleFormSet
 from django.forms.models import modelform_factory
 from django.apps import apps
-from .models import Module, Content
+from .models import Module, Content, Announcement
 from django.views.generic.detail import DetailView
 from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 from django.db.models import Count
@@ -100,7 +100,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
     template_name = 'courses/manage/content/form.html'
 
     def get_model(self, model_name):
-        if model_name in ['text', 'video', 'image', 'file', 'assignment', 'announcement']:
+        if model_name in ['text', 'video', 'image', 'file', 'assignment']:
             return apps.get_model(app_label='courses',
                                   model_name=model_name)
         return None
@@ -219,3 +219,29 @@ class CourseDetailView(DetailView):
         context['enroll_form'] = CourseEnrollForm(
             initial={'course': self.object})
         return context
+
+
+class AnnouncementCreateUpdateView(TemplateResponseMixin, View):
+    template_name = 'courses/manage/announcement/form.html'
+
+    def get_model(self, model_name):
+        if model_name in ['announcement']:
+            return apps.get_model(app_label='courses', model_name=model_name)
+        return None
+
+    def get_form(self, model, *args, **kwargs):
+        Form = modelform_factory(model, exclude=['owner', 'created', 'updated'])
+        return Form(*args, **kwargs)
+
+    def post(self, request, module_id, model_name, id=None):
+        form = self.get_form(self.model, instance=self.obj, data=request.POST, files=request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.owner = request.user
+            obj.save()
+            if not id:
+                # create new announcement
+                Announcement.objects.create(module=self.module, item=obj)
+            return redirect('module_content_list', self.module.id)
+
+        return self.render_to_response({'form': form, 'object': self.obj})

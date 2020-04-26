@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if object %}
+    Edit announcement "{{ object.title }}"
+  {% else %}
+    Add a new announcement
+  {% endif %}
+{% endblock %}
+
+{% block announcement %}
+  <h1>
+    {% if object %}
+      Edit announcement "{{ object.title }}"
+    {% else %}
+      Add a new announcement
+    {% endif %}
+  </h1>
+  <div class="module">
+    <h2>Announcement info</h2>
+    <form action="" method="post" enctype="multipart/form-data">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <p><input type="submit" value="Save content"></p>
+    </form>
+  </div>
+{% endblock %}

@@ -67,8 +67,7 @@ class Content(models.Model):
                                          'video',
                                          'image',
                                          'file',
-                                         'assignment',
-                                         'announcement')})
+                                         'assignment')})
     object_id = models.PositiveIntegerField()
     item = GenericForeignKey('content_type', 'object_id')
     order = OrderField(blank=True, for_fields=['module'])
@@ -112,5 +111,21 @@ class Content(models.Model):
         file = models.FileField(upload_to='files')
         due_date = models.DateTimeField(default=timezone.now)
 
-    class Announcement(ItemBase):
-        description = models.TextField()
+
+class Announcement(models.Model):
+    owner = models.ForeignKey(User, related_name='%(class)s_related', on_delete=models.CASCADE)
+    title = models.CharField(max_length=250)
+    description = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    object_id = models.PositiveIntegerField()
+    item = GenericForeignKey('object_id')
+
+    def render(self):
+        return render_to_string('courses/announcement/{}.html'.format(self._meta.model_name))
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        return self.title
