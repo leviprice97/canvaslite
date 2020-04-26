@@ -11,6 +11,7 @@ from courses.models import Course
 from courses.models import Assignment
 
 
+
 class StudentRegistrationView(CreateView):
 	template_name = 'students/student/registration.html'
 	form_class = UserCreationForm

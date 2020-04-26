@@ -158,6 +158,7 @@ class CourseModuleUpdateView(TemplateResponseMixin, View):
 
 
 class ContentCreateUpdateView(TemplateResponseMixin, View):
+
 	module = None
 	model = None
 	obj = None
@@ -212,6 +213,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 
 		return self.render_to_response({'form': form,
 										'object': self.obj})
+
 
 
 class ContentDeleteView(View):
