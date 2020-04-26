@@ -12,8 +12,8 @@
       {% with course=module.course %}
         <h1>Course "{{ course.title }}"</h1>
         <div class="border">
-            <h3>Modules</h3>
-              {% for m in course.modules.all %}
+            <h3>Assignment</h3>
+              {% for m in course..all %}
               <div class="col-lg-5 border">
                   <a href="{% url "module_content_list" m.id %}">
                       Module <span class="order">{{ m.order|add:1 }} | {{ m.title }}
@@ -67,7 +67,7 @@
             Video</a>
             <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "file" %}">
             File</a>
-            <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "module_assignment" %}">
+            <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "assignment" %}">
             Assignment</a>
               <a role="button" class="btn btn-primary" href="{% url "module_content_create" module.id "announcement" %}">
             Announcement</a>

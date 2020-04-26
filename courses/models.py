@@ -9,108 +9,144 @@ from django.utils import timezone
 
 
 class Subject(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+	title = models.CharField(max_length=200)
+	slug = models.SlugField(max_length=200, unique=True)
 
-    class Meta:
-        ordering = ['title']
+	class Meta:
+		ordering = ['title']
 
-    def __str__(self):
-        return self.title
+	def __str__(self):
+		return self.title
 
 
 class Course(models.Model):
-    owner = models.ForeignKey(User,
-                              related_name='courses_created',
-                              on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject,
-                                related_name='courses',
-                                on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
-    overview = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    students = models.ManyToManyField(User,
-                                      related_name='courses_joined',
-                                      blank=True)
+	owner = models.ForeignKey(User,
+							  related_name='courses_created',
+							  on_delete=models.CASCADE)
+	subject = models.ForeignKey(Subject,
+								related_name='courses',
+								on_delete=models.CASCADE)
+	title = models.CharField(max_length=200)
+	slug = models.SlugField(max_length=200, unique=True)
+	overview = models.TextField()
+	created = models.DateTimeField(auto_now_add=True)
+	students = models.ManyToManyField(User,
+									  related_name='courses_joined',
+									  blank=True)
 
-    class Meta:
-        ordering = ['-created']
+	class Meta:
+		ordering = ['-created']
+	
+	def get_course_id(self):
+		return self.id
 
-    def __str__(self):
-        return self.title
+	def __str__(self):
+		return self.title
 
+
+class Assignment(models.Model):
+	course = models.ForeignKey(Course,
+							   related_name='assignments',
+							   on_delete=models.CASCADE)
+	title = models.CharField(max_length=200)
+	description = models.TextField()
+	points = models.IntegerField()
+	file = models.FileField(upload_to='files')
+	due_date = models.DateTimeField(default=timezone.now)
+	
+	class Meta:
+		ordering = ['-due_date']
+	
+	def __str__(self):
+		return self.title
+
+class Grade(models.Model):
+	assignment = models.ForeignKey(Assignment,
+							   related_name='grade',
+							   on_delete=models.CASCADE)
+	student = models.ForeignKey(User, related_name='student_grade',
+							   on_delete=models.CASCADE)
+	grade = models.IntegerField()
+	
+	class Meta:
+		ordering = ['assignment']
+	
+	def __str__(self):
+		return assignment.title
 
 class Module(models.Model):
-    course = models.ForeignKey(Course,
-                               related_name='modules',
-                               on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    order = OrderField(blank=True, for_fields=['course'])
+	course = models.ForeignKey(Course,
+							   related_name='modules',
+							   on_delete=models.CASCADE)
+	title = models.CharField(max_length=200)
+	description = models.TextField(blank=True)
+	order = OrderField(blank=True, for_fields=['course'])
 
-    class Meta:
-        ordering = ['order']
+	class Meta:
+		ordering = ['order']
+	
+	def getcourse(self):
+		return self.course
 
-    def __str__(self):
-        return '{}. {}'.format(self.order, self.title)
+	def __str__(self):
+		return '{}. {}'.format(self.order, self.title)
 
 
 class Content(models.Model):
-    module = models.ForeignKey(Module,
-                               related_name='contents',
-                               on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType,
-                                     on_delete=models.CASCADE,
-                                     limit_choices_to={'model__in': (
-                                         'text',
-                                         'video',
-                                         'image',
-                                         'file',
-                                         'assignment',
-                                         'announcement')})
-    object_id = models.PositiveIntegerField()
-    item = GenericForeignKey('content_type', 'object_id')
-    order = OrderField(blank=True, for_fields=['module'])
+	module = models.ForeignKey(Module,
+							   related_name='contents',
+							   on_delete=models.CASCADE)
+	content_type = models.ForeignKey(ContentType,
+									 on_delete=models.CASCADE,
+									 limit_choices_to={'model__in': (
+										 'text',
+										 'video',
+										 'image',
+										 'file',
+										 'module_assignment',
+										 'announcement')})
+	object_id = models.PositiveIntegerField()
+	item = GenericForeignKey('content_type', 'object_id')
+	order = OrderField(blank=True, for_fields=['module'])
 
-    class Meta:
-        ordering = ['order']
+	class Meta:
+		ordering = ['order']
 
-    class ItemBase(models.Model):
-        owner = models.ForeignKey(User,
-                                  related_name='%(class)s_related',
-                                  on_delete=models.CASCADE)
-        title = models.CharField(max_length=250)
-        created = models.DateTimeField(auto_now_add=True)
-        updated = models.DateTimeField(auto_now=True)
+	class ItemBase(models.Model):
+		owner = models.ForeignKey(User,
+								  related_name='%(class)s_related',
+								  on_delete=models.CASCADE)
+		title = models.CharField(max_length=250)
+		created = models.DateTimeField(auto_now_add=True)
+		updated = models.DateTimeField(auto_now=True)
 
-        def render(self):
-            return render_to_string('courses/content/{}.html'.format(
-                self._meta.model_name), {'item': self})
+		def render(self):
+			return render_to_string('courses/content/{}.html'.format(
+				self._meta.model_name), {'item': self})
 
-        class Meta:
-            abstract = True
+		class Meta:
+			abstract = True
 
-        def __str__(self):
-            return self.title
+		def __str__(self):
+			return self.title
 
-    class Text(ItemBase):
-        content = models.TextField()
+	class Text(ItemBase):
+		content = models.TextField()
 
-    class File(ItemBase):
-        file = models.FileField(upload_to='files')
+	class File(ItemBase):
+		file = models.FileField(upload_to='files')
 
-    class Image(ItemBase):
-        file = models.FileField(upload_to='images')
+	class Image(ItemBase):
+		file = models.FileField(upload_to='images')
 
-    class Video(ItemBase):
-        url = models.URLField()
+	class Video(ItemBase):
+		url = models.URLField()
 
-    class Assignment(ItemBase):
-        description = models.TextField()
-        points = models.IntegerField()
-        file = models.FileField(upload_to='files')
-        due_date = models.DateTimeField(default=timezone.now)
+	class Module_Assignment(ItemBase):
+		assign = models.ForeignKey(Assignment, related_name='assignment_link', on_delete=models.CASCADE)
 
-    class Announcement(ItemBase):
-        description = models.TextField()
+	class Announcement(ItemBase):
+		description = models.TextField()
+
+
+

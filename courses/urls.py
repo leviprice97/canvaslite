@@ -38,7 +38,17 @@ urlpatterns = [
     path('subject/<slug:subject>)/',
          views.CourseListView.as_view(),
          name='course_list_subject'),
+	path('<pk>/assignments/',
+		views.CourseAssignmentList.as_view(),
+		name='course_assignment_list'),	
     path('<slug:slug>/',
          views.CourseDetailView.as_view(),
          name='course_detail'),
+	path('<pk>/assignments/create',
+		views.AssignmentCreateView.as_view(),
+		name='course_assignment_create'),	 
+	path('<pk>/assignments/<int:assignment_id>/edit',
+		views.AssignmentUpdateView.as_view(),
+		name='course_assignment_update'),
+
 ]

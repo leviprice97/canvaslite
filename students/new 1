@@ -1,0 +1,7 @@
+'Secure' login form
+	Remove username and password default values
+Change Dropdownstyle to Dropdownlist
+Replace the menu bar with hidden buttons
+Add me.close() to all create/okay buttons
+
+Change FormBorderStyle to 
