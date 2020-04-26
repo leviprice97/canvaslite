@@ -9,14 +9,14 @@ from django.utils import timezone
 
 
 class Subject(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
+	title = models.CharField(max_length=200)
+	slug = models.SlugField(max_length=200, unique=True)
 
-    class Meta:
-        ordering = ['title']
+	class Meta:
+		ordering = ['title']
 
-    def __str__(self):
-        return self.title
+	def __str__(self):
+		return self.title
 
 
 class Course(models.Model):
@@ -79,12 +79,12 @@ class Grade(models.Model):
 		return self.grade
 
 class Module(models.Model):
-    course = models.ForeignKey(Course,
-                               related_name='modules',
-                               on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    order = OrderField(blank=True, for_fields=['course'])
+	course = models.ForeignKey(Course,
+							   related_name='modules',
+							   on_delete=models.CASCADE)
+	title = models.CharField(max_length=200)
+	description = models.TextField(blank=True)
+	order = OrderField(blank=True, for_fields=['course'])
 
 	class Meta:
 		ordering = ['order']
@@ -93,8 +93,8 @@ class Module(models.Model):
 		return self.course
 
 
-    def __str__(self):
-        return '{}. {}'.format(self.order, self.title)
+	def __str__(self):
+		return '{}. {}'.format(self.order, self.title)
 
 
 class Content(models.Model):
