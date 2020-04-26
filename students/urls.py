@@ -11,12 +11,13 @@ urlpatterns = [
     path('courses/',
          views.StudentCourseListView.as_view(),
          name='student_course_list'),
-
     path('course/<pk>/',
          views.StudentCourseDetailView.as_view(),
          name='student_course_detail'),
-
-    path('course/<pk>/<module_id>/',
+    path('course/<pk>/module/<module_id>/',
          views.StudentCourseDetailView.as_view(),
          name='student_course_detail_module'),
+	path('course/<pk>/assignment/<assignment_id>',
+		views.StudentAssignmentView.as_view(),
+		name='student_course_assignment_view'),
 ]

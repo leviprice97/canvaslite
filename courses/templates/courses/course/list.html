@@ -33,14 +33,16 @@
                     {% for course in courses %}
                     <div class="col-md-6 border px-lg-5">
                         {% with subject=course.subject %}
-                            <h3><a href="{% url 'course_detail' course.slug %}">
+                            <h3><a href="{% url "course_detail" course.slug %}"><br>
                             {{ course.title }}</a></h3>
                             <p>
                                 <a href="{% url 'course_list_subject' subject.slug %}">
                                 {{ subject }}</a> |
                                 {{ course.total_modules }} modules |
                                 Instructor: {{ course.owner.get_full_name }}
-                            </p>
+                                <h5><a href="{% url "course_detail" course.slug %}">Recent Announcements</h5></a>
+                                (Announcements will be displayed once created)<br>
+                            <br></p>
                         {% endwith %}
                     </div>
                     {% endfor %}
