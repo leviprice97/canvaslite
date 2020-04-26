@@ -13,7 +13,7 @@
                 <h3>Modules</h3><br>
 
                 {% for m in object.modules.all %}
-                    {% if not m.is_true %}
+                    {% if m.is_true %}
 
                     <div class="col-lg-5 border">
                         <div class="row mx-lg-n1">
@@ -22,7 +22,6 @@
                     </div>
                     {% else %}
                 <div class="col-5 border">
-                    No modules available.
                 </div>
 
                     {% endif %}
@@ -43,7 +42,10 @@
 
 
                 {% for content in module.contents.all %}
+
+
                     {% with item=content.item %}
+                         {% if module.is_true %}
                     <div class="col-lg-5 border">
                         <div class="row mx-lg-n1">
                             <h3>{{ item.title }}</h3>
@@ -52,8 +54,17 @@
                         {{ item.render }}
                         </div>
                     </div>
+                    {% else %}
+                    <div class="col-5 border">
+                        No content yet.
+                    </div>
+                    <br>
+                        {% endif %}
                     {% endwith %}
+
                     {% empty %}
+
+
                     <div class="col-5 border">
                         No content yet.
                     </div>
