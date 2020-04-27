@@ -195,8 +195,9 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
 
     def get(self, request, module_id, model_name, id=None):
         form = self.get_form(self.model, instance=self.obj)
-        form.fields['assign'].queryset = form.fields['assign'].queryset.filter(
-            course=Module.objects.get(id=self.kwargs['module_id']).getcourse().get_course_id())
+        if model_name == 'module_assignment':
+            form.fields['assign'].queryset = form.fields['assign'].queryset.filter(
+                course=Module.objects.get(id=self.kwargs['module_id']).getcourse().get_course_id())
         return self.render_to_response({'form': form, 'object': self.obj})
 
     def post(self, request, module_id, model_name, id=None):
