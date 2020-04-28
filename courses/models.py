@@ -67,7 +67,9 @@ class Grade(models.Model):
 							   on_delete=models.CASCADE)
 	student = models.ForeignKey(User, related_name='student_grade',
 							   on_delete=models.CASCADE)
+	submission = models.FileField()
 	grade = models.IntegerField()
+
 	
 	class Meta:
 		ordering = ['assignment']

@@ -138,3 +138,4 @@ files
 
 #ignore vscode
 .vscode
+courses/migrations/0012_merge_20200428_1611.py
