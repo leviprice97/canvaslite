@@ -52,11 +52,11 @@ class Assignment(models.Model):
 	title = models.CharField(max_length=200)
 	description = models.TextField()
 	points = models.IntegerField()
-	file = models.FileField(upload_to='files')
-	due_date = models.DateTimeField(default=timezone.now)
+	file = models.FileField(upload_to='files',blank=True)
+	due_date = models.DateTimeField(default=timezone.now,blank=True)
 	
 	class Meta:
-		ordering = ['-due_date']
+		ordering = ['due_date']
 	
 	def __str__(self):
 		return self.title
@@ -67,8 +67,8 @@ class Grade(models.Model):
 							   on_delete=models.CASCADE)
 	student = models.ForeignKey(User, related_name='student_grade',
 							   on_delete=models.CASCADE)
-	submission = models.FileField()
-	grade = models.IntegerField()
+	submission_file = models.FileField(blank=True)
+	grade = models.IntegerField(blank=True)
 
 	
 	class Meta:

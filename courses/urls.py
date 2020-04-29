@@ -65,5 +65,13 @@ urlpatterns = [
 	path('<pk>/grades/',
 		views.CourseGradeList.as_view(),
 		name='course_grade_list'),
-
+    path('<pk>/assignments/<int:assignment_id>/grades',
+         views.AssignmentGradeView.as_view(),
+         name='course_assignment_grades'),
+    path('<pk>/assignments/<int:assignment_id>/<student_id>',
+         views.StudentAssignmentGradeCreate.as_view(),
+         name='student_assignment_grade_create'),
+    path('<pk>/grades/<int:assignment_id>/<student_id>/edit',
+         views.StudentAssignmentGradeUpdate.as_view(),
+         name='student_assignment_grade_update'),
 ]

@@ -15,6 +15,7 @@ from django.db.models import Count
 from .models import Subject
 from students.forms import CourseEnrollForm
 from .models import Assignment, Grade
+from .models import User
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -92,6 +93,8 @@ class AssignmentCreateView(OwnerAssignmentEditMixin, CreateView):
 	fields = ['title', 'description', 'points', 'file', 'due_date']
 	model = Assignment
 
+
+
 class AssignmentDeleteView(View):
 	
 	def post(self, request, pk, assignment_id):
@@ -107,6 +110,68 @@ class AssignmentDeleteView(View):
 			Content.objects.get(id=content).delete()
 		return redirect('course_assignment_list', pk)
 	
+class AssignmentGradeView(TemplateView):
+	template_name = 'courses/manage/assignment/grades.html'
+	assignment = None
+
+	def get_course_grades(self):
+		output = {}
+
+		for student in self.assignment.course.students.all():
+			earned_points = 0
+			total_points = 0
+			grade = None
+			try:
+				earned_points += Grade.objects.get(student = student, assignment = self.assignment).grade
+				total_points += Grade.objects.get(student=student, assignment=self.assignment).assignment.points
+				grade = Grade.objects.get(student = student, assignment = self.assignment).id
+			except:
+				earned_points = 0
+				total_points = 0
+			output[student] = [(get_grade(earned_points, total_points)), grade]
+
+		return output
+
+	def get_context_data(self, **kwargs):
+		context = super(AssignmentGradeView,
+						self).get_context_data(**kwargs)
+		self.assignment = Assignment.objects.get(id=self.kwargs['assignment_id'])
+		context['assignment'] = self.assignment
+		context['studentgrades'] = self.get_course_grades()
+		return context
+
+class StudentAssignmentGrade(View):
+	template_name = 'courses/manage/assignment/grade.html'
+	model = Grade
+	fields = ['submission_file', 'grade']
+	assignment = None
+	student = None
+
+	def get_context_data(self, **kwargs):
+		context = super(StudentAssignmentGrade, self).get_context_data(**kwargs)
+		self.assignment = Assignment.objects.get(id=self.kwargs['assignment_id'])
+		context['assignment'] = self.assignment
+		self.student = User.objects.get(id=self.kwargs['student_id'])
+		context['student'] = self.student
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.assignment = Assignment.objects.get(id=self.kwargs['assignment_id'])
+		self.object.student = User.objects.get(id=self.kwargs['student_id'])
+		self.object.save()
+		return super().form_valid(form)
+
+	def post(self,  request, *args, **kwargs):
+		StudentAssignmentGrade.success_url = reverse_lazy('course_assignment_grades', kwargs={'pk': kwargs['pk'], 'assignment_id': kwargs['assignment_id']})
+		return super(StudentAssignmentGrade, self).post(request, *args, **kwargs)
+
+class StudentAssignmentGradeCreate(StudentAssignmentGrade, CreateView):
+	model = Grade
+
+class StudentAssignmentGradeUpdate(StudentAssignmentGrade, UpdateView):
+	def get_object(self):
+		return Grade.objects.get(student=self.kwargs['student_id'], assignment=self.kwargs['assignment_id'])
 
 
 class AssignmentUpdateView(OwnerAssignmentEditMixin, UpdateView):
@@ -125,7 +190,36 @@ class CourseAssignmentList(OwnerAssignmentMixin, ListView):
 
 class CourseGradeList(TemplateView):
 	template_name = 'courses/course/gradeList.html'
-	grade = Grade.objects.all()
+	course = None
+
+	def get_course_grades(self):
+		output = {}
+		for student in self.course.students.all():
+			StudentGradeList = []
+			earned_points = 0
+			total_points = 0
+			for assignment in self.course.assignments.all():
+				try:
+					StudentGradeList.append(Grade.objects.get(student = student, assignment = assignment).grade)
+					earned_points += Grade.objects.get(student = student, assignment = assignment).grade
+					total_points += Grade.objects.get(student=student, assignment=assignment).assignment.points
+				except:
+					StudentGradeList.append("-")
+			StudentGradeList.append(get_grade(earned_points, total_points))
+			output[student]=(StudentGradeList)
+
+		return output
+
+	def get_context_data(self, **kwargs):
+		context = super(CourseGradeList,
+						self).get_context_data(**kwargs)
+		self.course = Course.objects.get(id=self.kwargs['pk'])
+		context['course'] = self.course
+		context['studentgrades'] = self.get_course_grades()
+		return context
+
+
+
 
 
 class CourseModuleUpdateView(TemplateResponseMixin, View):
@@ -275,6 +369,7 @@ class CourseListView(TemplateResponseMixin, View):
 		if subject:
 			subject = get_object_or_404(Subject, slug=subject)
 			courses = courses.filter(subject=subject)
+
 		return self.render_to_response({'subjects': subjects,
 										'subject': subject,
 										'courses': courses})
@@ -290,3 +385,37 @@ class CourseDetailView(DetailView):
 		context['enroll_form'] = CourseEnrollForm(
 			initial={'course': self.object})
 		return context
+
+def get_grade(earned, total):
+	output = "(" + str(earned) + "/" + str(total) + ") "
+	if total == 0:
+		output += "-"
+	else:
+		percent = earned/total
+		if percent >= .97:
+			output += "A+"
+		elif percent >= .93:
+			output +=  "A"
+		elif percent >= .90:
+			output += "A-"
+		elif percent >= .87:
+			output +=  "B+"
+		elif percent >= .83:
+			output +=  "B"
+		elif percent >= .80:
+			output +=  "B-"
+		elif percent >= .77:
+			output +=  "C+"
+		elif percent >= .73:
+			output +=  "C"
+		elif percent >= .70:
+			output +=  "C-"
+		elif percent >= .67:
+			output +=  "D+"
+		elif percent >= .63:
+			output +=  "D"
+		elif percent >= .60:
+			output += "D-"
+		else:
+			output +=  "F"
+	return output

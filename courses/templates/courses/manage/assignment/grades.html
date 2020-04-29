@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ object.title }}
+    {{ assignment.title }}
 {% endblock %}
 
 {% block content %}
 
-
-
+  
 <div class="container px-lg-5">
   <div class="row mx-lg-n5">
 
@@ -17,6 +16,7 @@
     <div class="col py-3 px-lg-5 border bg-light">
       <h1>Assignments</h1>
       <div class="row mb-3">
+
 <table class="col py-3 px-lg-5 border bg-light">
     <tr>
         <td>Student</td>
@@ -31,20 +31,23 @@
 
     </tr>
 
-{% for student, grades in studentgrades.items %}
+{% for student, grade in studentgrades.items %}
     <tr>
         <td>{{student}}</td>
-{% for grade in grades %}
-<td>
-    {{grade}}
-    </td>
-{% endfor %}
+        <td>{{ grade.0 }}      </td>
+        {% if grade.0 == "(0/0) -" %}
+<td><a role="button" class="btn btn-primary" href="{% url "student_assignment_grade_create" pk assignment.id student.id %}">Grade</a>
+        {% else %}
+<td><a role="button" class="btn btn-primary" href="{% url "student_assignment_grade_update" pk assignment.id student.id %}">Change Grade</a>
+    {% endif %}
+</td>
+
         </tr>
     {% endfor %}
 
 </table>
+
     </div>
   </div>
 </div>
-
 {% endblock %}

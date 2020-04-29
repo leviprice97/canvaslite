@@ -16,10 +16,11 @@
               <a role="button" class="btn btn-primary" href="{% url "course_edit" course.id %}">Edit</a>
               <a rolee="button" class="btn btn-primary" href="{% url "course_delete" course.id %}">Delete</a>
               <a role="button" class="btn btn-primary" href="{% url "course_module_update" course.id %}">Edit modules</a>
-			  <a role="button" class="btn btn-primary" href="{% url "course_assignment_list" course.id %}">Manage Assignments</a>
+			  <a role="button" class="btn btn-primary" href="{% url "course_assignment_list" course.id %}">Assignments</a>
               {% if course.modules.count > 0 %}
               <a role="button" class="btn btn-primary" href="{% url "module_content_list" course.modules.first.id %}">Manage contents</a>
               {% endif %}
+              <a role="button" class="btn btn-primary" href="{% url "course_grade_list" course.id %}">Gradebook</a>
             </p>
           </div>
         {% empty %}
