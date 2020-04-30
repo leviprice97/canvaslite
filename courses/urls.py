@@ -17,8 +17,7 @@ urlpatterns = [
     path('<pk>/module/',
          views.CourseModuleUpdateView.as_view(),
          name='course_module_update'),
-		 
-		 
+
     path('module/<int:module_id>/content/<model_name>/create/',
          views.ContentCreateUpdateView.as_view(),
          name='module_content_create'),
@@ -28,8 +27,7 @@ urlpatterns = [
     path('content/<int:id>/delete/',
          views.ContentDeleteView.as_view(),
          name='module_content_delete'),
-		 
-		 
+
     path('module/<int:module_id>/',
          views.ModuleContentListView.as_view(),
          name='module_content_list'),
@@ -44,26 +42,38 @@ urlpatterns = [
          views.CourseListView.as_view(),
          name='course_list_subject'),
 
-	  path('<pk>/assignments/',
+    path('<pk>/assignments/',
          views.CourseAssignmentList.as_view(),
-         name='course_assignment_list'),	
+         name='course_assignment_list'),
 
     path('<slug:slug>/',
          views.CourseDetailView.as_view(),
          name='course_detail'),
-		 
-		 
-	path('<pk>/assignments/create',
-		views.AssignmentCreateView.as_view(),
-		name='course_assignment_create'),	 
-	path('<pk>/assignments/<int:assignment_id>/edit',
-		views.AssignmentUpdateView.as_view(),
-		name='course_assignment_update'),
-	path('<pk>/assignments/<int:assignment_id>/delete',
-		views.AssignmentDeleteView.as_view(),
-		name='course_assignment_delete'),
-	path('<pk>/grades/',
-		views.CourseGradeList.as_view(),
-		name='course_grade_list'),
+
+    path('<pk>/assignments/create',
+         views.AssignmentCreateView.as_view(),
+         name='course_assignment_create'),
+    path('<pk>/assignments/<int:assignment_id>/edit',
+         views.AssignmentUpdateView.as_view(),
+         name='course_assignment_update'),
+    path('<pk>/assignments/<int:assignment_id>/delete',
+         views.AssignmentDeleteView.as_view(),
+         name='course_assignment_delete'),
+    path('<pk>/grades/',
+         views.CourseGradeList.as_view(),
+         name='course_grade_list'),
+
+    path('<pk>/announcements/',
+         views.CourseAnnouncementList.as_view(),
+         name='course_announcement_list'),
+    path('<pk>/announcements/create',
+         views.AnnouncementCreateView.as_view(),
+         name='course_announcement_create'),
+    path('<pk>/announcements/<int:announcement_id>/edit',
+         views.AnnouncementUpdateView.as_view(),
+         name='course_announcement_update'),
+    path('<pk>/announcements/<int:announcement_id>/delete',
+         views.AnnouncementDeleteView.as_view(),
+         name='course_announcement_delete'),
 
 ]

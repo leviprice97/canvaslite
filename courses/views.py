@@ -14,7 +14,7 @@ from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 from django.db.models import Count
 from .models import Subject
 from students.forms import CourseEnrollForm
-from .models import Assignment, Grade
+from .models import Assignment, Grade, Announcement
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -168,7 +168,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
         super().__init__(*args, **kwargs)
 
     def get_model(self, model_name):
-        if model_name in ['text', 'video', 'image', 'file', 'module_assignment', 'announcement']:
+        if model_name in ['text', 'video', 'image', 'file', 'module_assignment']:
             return apps.get_model(app_label='courses',
                                   model_name=model_name)
         return None
@@ -290,3 +290,50 @@ class CourseDetailView(DetailView):
         context['enroll_form'] = CourseEnrollForm(
             initial={'course': self.object})
         return context
+
+
+class OwnerAnnouncementMixin(LoginRequiredMixin):
+    fields = ['title', 'description', 'created', 'updated']
+    model = Announcement
+
+    def post(self, request, *args, **kwargs):
+        OwnerAnnouncementMixin.success_url = reverse_lazy('course_announcement_list', kwargs={'pk': kwargs['pk']})
+        return super(OwnerAnnouncementMixin, self).post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        course = Course.objects.get(pk=self.kwargs['pk'])
+        self.object = form.save(commit=False)
+        self.object.course = course
+        self.object.save()
+        return super().form_valid(form)
+
+
+class OwnerAnnouncementEditMixin(OwnerAnnouncementMixin, OwnerEditMixin):
+    fields = ['title', 'description', 'created', 'updated']
+    template_name = 'courses/manage/announcement/create.html'
+
+
+class AnnouncementCreateView(OwnerAnnouncementEditMixin, CreateView):
+    fields = ['title', 'description', 'created', 'updated']
+    model = Announcement
+
+
+class AnnouncementUpdateView(OwnerAnnouncementEditMixin, UpdateView):
+    model = Announcement
+
+
+class AnnouncementDeleteView(View):
+    def post(self, request, pk, announcement_id):
+        announcement = get_object_or_404(Announcement, id=announcement_id)
+        announcement.delete()
+
+
+class CourseAnnouncementList(OwnerAnnouncementMixin, ListView):
+    template_name = 'courses/announcement/announcementList.html'
+
+    def get_queryset(self):
+        qs = super(CourseAnnouncementList, self).get_queryset()
+        return qs.filter(course_id=self.kwargs['pk'])
+
+    def get_title(self):
+        return "words"

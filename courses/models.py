@@ -169,5 +169,10 @@ class Content(models.Model):
             print(ItemContent)
             ItemContent.delete()
 
-    class Announcement(ItemBase):
-        description = models.TextField()
+
+class Announcement(models.Model):
+    course = models.ForeignKey(Course, related_name='announcements', on_delete=models.CASCADE)
+    title = models.CharField(max_length=250)
+    description = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
