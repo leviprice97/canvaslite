@@ -20,7 +20,7 @@
               {% if course.modules.count > 0 %}
               <a role="button" class="btn btn-primary" href="{% url "module_content_list" course.modules.first.id %}">Manage contents</a>
               {% endif %}
-              <a role="button" class="btn btn-primary" href="{% url "course_grade_list" course.id %}">Gradebook</a>
+              <a role="button" class="btn btn-primary" href="{% url "course_grade_book" course.id %}">Gradebook</a>
             </p>
           </div>
         {% empty %}

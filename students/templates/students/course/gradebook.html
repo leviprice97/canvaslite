@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ object.title }}
+   {{request.user.username}} {{ course.title }} Grades
 {% endblock %}
 
 {% block content %}
-
 
 
 <div class="container px-lg-5">
@@ -15,36 +14,44 @@
 
 
     <div class="col py-3 px-lg-5 border bg-light">
-      <h1>Assignments</h1>
+      <h1>Graded Assignments</h1>
       <div class="row mb-3">
+
 <table class="col py-3 px-lg-5 border bg-light">
     <tr>
         <td>Student</td>
-    {% for assignment in course.assignments.all %}
-
-<td>{{ assignment.title }}</td>
 
 
-{% endfor %}
-        <td>Assignment Grade</td>
+
+
+        <td>Grade</td>
+
+
+</tr>
+    {% for grade in grades %}
+<tr>
+<td>{{ grade.0.assignment.title }}</td>
+<td>{{ grade.1 }}      </td>
+
+
+
+
+
+        </tr>
+    {% endfor %}
+    <tr>
+        <td>Course Grade</td>
+
+
+
+
+        <td>{{course_grade}}</td>
 
 
     </tr>
-
-{% for student, grades in studentgrades.items %}
-    <tr>
-        <td>{{student}}</td>
-{% for grade in grades %}
-<td>
-    {{grade}}
-    </td>
-{% endfor %}
-        </tr>
-    {% endfor %}
-
 </table>
+
     </div>
   </div>
 </div>
-
 {% endblock %}

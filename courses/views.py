@@ -175,7 +175,8 @@ class StudentAssignmentGradeUpdate(StudentAssignmentGrade, UpdateView):
 
 
 class AssignmentUpdateView(OwnerAssignmentEditMixin, UpdateView):
-	model = Assignment
+	def get_object(self):
+		return Assignment.objects.get(id=self.kwargs['assignment_id'])
 	
 
 class CourseAssignmentList(OwnerAssignmentMixin, ListView):
@@ -185,11 +186,16 @@ class CourseAssignmentList(OwnerAssignmentMixin, ListView):
 		return qs.filter(course_id=self.kwargs['pk'])	
 	def get_title(self):
 		return "sometext"
+	def get_context_data(self, **kwargs):
+		context = super(CourseAssignmentList,
+						self).get_context_data(**kwargs)
+		self.course = Course.objects.get(id=self.kwargs['pk'])
+		context['course'] = self.course
+		return context
 
 
-
-class CourseGradeList(TemplateView):
-	template_name = 'courses/course/gradeList.html'
+class CourseGradeBook(TemplateView):
+	template_name = 'courses/course/GradeBook.html'
 	course = None
 
 	def get_course_grades(self):
@@ -200,7 +206,8 @@ class CourseGradeList(TemplateView):
 			total_points = 0
 			for assignment in self.course.assignments.all():
 				try:
-					StudentGradeList.append(Grade.objects.get(student = student, assignment = assignment).grade)
+					StudentGradeList.append(get_grade(Grade.objects.get(student = student, assignment = assignment).grade, Grade.objects.get(student=student, assignment=assignment).assignment.points))
+
 					earned_points += Grade.objects.get(student = student, assignment = assignment).grade
 					total_points += Grade.objects.get(student=student, assignment=assignment).assignment.points
 				except:
@@ -211,7 +218,7 @@ class CourseGradeList(TemplateView):
 		return output
 
 	def get_context_data(self, **kwargs):
-		context = super(CourseGradeList,
+		context = super(CourseGradeBook,
 						self).get_context_data(**kwargs)
 		self.course = Course.objects.get(id=self.kwargs['pk'])
 		context['course'] = self.course

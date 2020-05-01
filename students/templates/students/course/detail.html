@@ -12,7 +12,7 @@
 
                 <h1>{{ object.title }}</h1>
 
-                <h3>Modules</h3><br>
+                <h3>Course Content</h3><br>
                 {% for m in object.modules.all %}
                     <div class="col border">
                         <div class="row">
@@ -24,6 +24,16 @@
                     No modules yet.
                 </div>
                 {% endfor %}
+                    <div class="col border">
+                        <div class="row">
+                            <a href="{% url "student_grade_book" object.id %}"> Grades </a>
+                        </div>
+                    </div>
+                    <div class="col border">
+                        <div class="row">
+                            <a href="{% url "student_course_assignment_list" object.id %}"> Assignments </a>
+                        </div>
+                    </div>
             </div>
             <br>
             <div class="border">
@@ -37,7 +47,7 @@
                         <div class="row">
                             <h3>{{ item.title }}</h3>
                         </div>
-                        <div class="row">
+                        <div class="module-contents">
                         {{ item.render }}
                         </div>
                     </div>

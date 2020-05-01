@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ course.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+
+
+
+
+    <div class="col py-3 px-lg-5 border bg-light">
+      <h1>{{ course.title }} Assignments</h1>
+      <div class="row mb-3">
+        {% for assignment in object_list %}
+
+        <div class="col-md-6 border px-lg-5">
+          <h3 class="mb-0">{{ assignment.title }}</h3>
+          <p class="mb-0">Description: {{ assignment.description }}</p>
+		  <p class="mb-0">Points: {{ assignment.points }}</p>
+		  <p class="mb-0">Due: {{ assignment.due_date }}</p>
+
+          <p><a role="button" class="btn btn-primary" href="{% url "student_assignment_submit" assignment.course_id assignment.id request.user.id %}">Submit</a></p>
+
+          </div>
+        {% empty %}
+        <p>There are not any published assignments</p>
+        {% endfor %}
+      </div>
+      <br>
+      <a role="button" class="btn btn-primary" href="{% url "student_grade_book" course.id %}">Gradebook</a>
+    </div>
+  </div>
+</div>
+
+
+        {% endblock %}

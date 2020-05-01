@@ -52,8 +52,8 @@ class Assignment(models.Model):
 	title = models.CharField(max_length=200)
 	description = models.TextField()
 	points = models.IntegerField()
-	file = models.FileField(upload_to='files',blank=True)
-	due_date = models.DateTimeField(default=timezone.now,blank=True)
+	file = models.FileField(upload_to='files',blank=True, null=True)
+	due_date = models.DateTimeField(default=timezone.now,blank=True, null=True)
 	
 	class Meta:
 		ordering = ['due_date']
@@ -67,8 +67,8 @@ class Grade(models.Model):
 							   on_delete=models.CASCADE)
 	student = models.ForeignKey(User, related_name='student_grade',
 							   on_delete=models.CASCADE)
-	submission_file = models.FileField(blank=True)
-	grade = models.IntegerField(blank=True)
+	submission_file = models.FileField(blank=True, null=True)
+	grade = models.IntegerField(blank=True, null=True)
 
 	
 	class Meta:
@@ -85,8 +85,8 @@ class Module(models.Model):
 							   related_name='modules',
 							   on_delete=models.CASCADE)
 	title = models.CharField(max_length=200)
-	description = models.TextField(blank=True)
-	order = OrderField(blank=True, for_fields=['course'])
+	description = models.TextField(blank=True, null=True)
+	order = OrderField(blank=True, null=True, for_fields=['course'])
 
 	class Meta:
 		ordering = ['order']
@@ -164,9 +164,7 @@ class Content(models.Model):
 		assign = models.ForeignKey(Assignment, related_name='assignment_link', on_delete=models.CASCADE)
 		
 		def delete(self):
-			print(self.id)
 			ItemContent = Content.objects.get(id=self.id)
-			print(ItemContent)
 			ItemContent.delete()
 
 	class Announcement(ItemBase):
