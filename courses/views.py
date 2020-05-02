@@ -196,7 +196,7 @@ class CourseAssignmentList(OwnerAssignmentMixin, ListView):
 
 
 class CourseGradeBook(TemplateView):
-	template_name = 'courses/course/GradeBook.html'
+	template_name = 'courses/course/gradeBook.html'
 	course = None
 
 	def get_course_grades(self):
