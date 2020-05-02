@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+
+
+
+
+    <div class="col py-3 px-lg-5 border bg-light">
+      <h1>{{course.title}} Gradebook</h1>
+      <div class="row mb-3">
+<table class="col py-3 px-lg-5 border bg-light">
+    <tr>
+        <td>Student</td>
+    {% for assignment in course.assignments.all %}
+
+<td>{{ assignment.title }}</td>
+
+
+{% endfor %}
+        <td>Overall Grade</td>
+
+
+    </tr>
+
+{% for student, grades in studentgrades.items %}
+    <tr>
+        <td>{{student}}</td>
+{% for grade in grades %}
+<td>
+    {{grade}}
+    </td>
+{% endfor %}
+        </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+{% for assignment in course.assignments.all %}
+        <td>
+    <a role="button" class="btn btn-primary" href="{% url "course_assignment_grades" assignment.course_id assignment.id %}">Grade {{assignment.title}}</a>
+    </td>
+            {% endfor %}
+    </tr>
+</table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

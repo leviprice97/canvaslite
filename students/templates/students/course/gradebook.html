@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+   {{request.user.username}} {{ course.title }} Grades
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+
+
+
+
+    <div class="col py-3 px-lg-5 border bg-light">
+      <h1>Graded Assignments</h1>
+      <div class="row mb-3">
+
+<table class="col py-3 px-lg-5 border bg-light">
+    <tr>
+        <td>Student</td>
+
+
+
+
+        <td>Grade</td>
+
+
+</tr>
+    {% for grade in grades %}
+<tr>
+<td>{{ grade.0.assignment.title }}</td>
+<td>{{ grade.1 }}      </td>
+
+
+
+
+
+        </tr>
+    {% endfor %}
+    <tr>
+        <td>Course Grade</td>
+
+
+
+
+        <td>{{course_grade}}</td>
+
+
+    </tr>
+</table>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,1 +1,6 @@
-{{ item.description|linebreaks|safe }}
+{{ item.assign.description|linebreaks|safe }}
+<p>Points: {{ item.assign.points|safe }}</p>
+<p>Assignment Due: {{ item.assign.due_date|safe }}</p>
+{% if not item.assign.file == "" %}
+<p><a href="{{ item.assign.file.url }}" class="button">Instructions</a></p>
+{% endif %}

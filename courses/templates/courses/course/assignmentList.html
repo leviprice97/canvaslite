@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ object.title }}
+    {{ course.title }}
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
 
 
     <div class="col py-3 px-lg-5 border bg-light">
-      <h1>Assignments</h1>
+      <h1>{{ course.title }} Assignments</h1>
       <div class="row mb-3">
         {% for assignment in object_list %}
 		
@@ -21,17 +21,19 @@
           <p class="mb-0">Description: {{ assignment.description }}</p>
 		  <p class="mb-0">Points: {{ assignment.points }}</p>
 		  <p class="mb-0">Due: {{ assignment.due_date }}</p>
-		  <p><a role="button" class="btn btn-primary" href="{% url "course_assignment_update" assignment.course_id assignment.id %}">Edit modules</a>
+		  <p><a role="button" class="btn btn-primary" href="{% url "course_assignment_update" assignment.course_id assignment.id %}">Edit Assignment</a>
+            <a role="button" class="btn btn-primary" href="{% url "course_assignment_grades" assignment.course_id assignment.id %}">Manage Grades</a>
 		  <form action="{% url "course_assignment_delete" assignment.course_id assignment.id %}" method="post">
                       <input class="btn btn-primary" type="submit" value="Delete">{% csrf_token %}
 					  </form>
           </div>
         {% empty %}
-        <p>You haven't created any courses yet.</p>
+        <p>You haven't created any courses yet. </p>
         {% endfor %}
       </div>
       <br>
-      <a role="button" class="btn btn-primary" href="{% url "course_create" %}" class="button">Create new assignment</a>
+      <a role="button" class="btn btn-primary" href=".\create" class="button">Create new assignment</a>
+      <a role="button" class="btn btn-primary" href="{% url "course_grade_book" course.id %}">Gradebook</a>
     </div>
   </div>
 </div>

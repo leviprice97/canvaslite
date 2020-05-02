@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if object %}
+    Edit Grade "{{ object.title }}"
+  {% else %}
+    Grade
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container px-lg-5">
+  <div class="row mx-lg-n5">
+      <div class="col py-3 px-lg-5 border bg-light">
+        <h1>
+          {{ student.username }} {{ assignment.title }} Grade
+        </h1>
+        <form action="" method="post" enctype="multipart/form-data">
+          {{ form.as_p }}
+          {% csrf_token %}
+          <input class="btn btn-primary" type="submit" value="Save assignment">
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

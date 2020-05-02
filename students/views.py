@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.views.generic.edit import FormView
@@ -7,10 +7,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CourseEnrollForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.base import TemplateResponseMixin, View, TemplateView
 from courses.models import Course
 from courses.models import Assignment
-
-
+from courses.models import Grade
+from courses.views import get_grade
+from courses.models import User
+from courses.views import StudentAssignmentGrade
+from django.shortcuts import redirect
 
 class StudentRegistrationView(CreateView):
 	template_name = 'students/student/registration.html'
@@ -74,28 +78,76 @@ class StudentCourseDetailView(DetailView):
 		return context
 
 
-class StudentAssignmentView(DetailView):
+class StudentAssignmentList(ListView):
 	model = Assignment
+	fields = ['title', 'description', 'points', 'file', 'due_date']
 	template_name = 'students/course/assignment_list.html'
 	
 	def get_queryset(self):
-		qs = super(StudentAssignmentView, self).get_queryset()
-		return qs.filter(assignments__in=[self.request.user])
+		qs = super(StudentAssignmentList, self).get_queryset()
+		return qs.filter(course_id=Course.objects.get(id=self.kwargs['pk']))
 
 	def get_context_data(self, **kwargs):
-		context = super(StudentAssignmentView,
+		context = super(StudentAssignmentList,
 						self).get_context_data(**kwargs)
 		# get course object
-		course = self.get_object()
-		if 'assignment_id' in self.kwargs:
-			# get current module
-			context['assignment'] = course.assignments.get(
-				id=self.kwargs['module_id'])
-		else:
-			# get first module
-			context['module'] = course.assignments.all()[0]
+		context['course'] = Course.objects.get(id=self.kwargs['pk'])
+
 		return context
 	
-	
-	
+class StudentGradeBook(TemplateView):
+	template_name = 'students/course/gradebook.html'
+	course = None
+
+	def get_student_grades(self, context):
+		output = context
+		student = User.objects.get(id=self.request.user.id)
+		StudentGradeList = []
+		earned_points = 0
+		total_points = 0
+		for assignment in self.course.assignments.all():
+			try:
+				StudentGradeList.append([Grade.objects.get(student = student, assignment = assignment),
+										 get_grade(Grade.objects.get(student = student, assignment = assignment).grade, Grade.objects.get(student=student, assignment=assignment).assignment.points)])
+
+				earned_points += Grade.objects.get(student = student, assignment = assignment).grade
+				total_points += Grade.objects.get(student=student, assignment=assignment).assignment.points
+			except:
+				StudentGradeList.append("-")
+		output['course_grade'] = (get_grade(earned_points, total_points))
+		output['grades']=(StudentGradeList)
+
+		return output
+
+	def get_context_data(self, **kwargs):
+		context = super(StudentGradeBook,
+						self).get_context_data(**kwargs)
+		self.course = Course.objects.get(id=self.kwargs['pk'])
+		context['course'] = self.course
+		context = self.get_student_grades(context)
+		return context
+
+class StudentAssignmentSubmit(StudentAssignmentGrade, CreateView):
+	fields = ['submission_file']
+	model = Grade
+
+	def get(self, request, *args, **kwargs):
+		try:
+			Grade.objects.get(student=User.objects.get(id=self.request.user.id), assignment = Assignment.objects.get(id=self.kwargs['assignment_id']))
+			return redirect('student_assignment_update', self.kwargs['pk'], self.kwargs['assignment_id'], self.kwargs['student_id'])
+		except:
+			return super(StudentAssignmentSubmit, self).get(request, *args, **kwargs)
+
+	def post(self,  request, *args, **kwargs):
+		StudentAssignmentGrade.success_url = reverse_lazy('student_course_assignment_list', kwargs={'pk': kwargs['pk'], 'assignment_id': kwargs['assignment_id']})
+		return super(StudentAssignmentGrade, self).post(request, *args, **kwargs)
+
+class StudentAssignmentUpdate(StudentAssignmentGrade, UpdateView):
+	fields = ['submission_file']
+	def get_object(self):
+		return Grade.objects.get(student=self.kwargs['student_id'], assignment=self.kwargs['assignment_id'])
+
+	def post(self,  request, *args, **kwargs):
+		StudentAssignmentGrade.success_url = reverse_lazy('student_course_assignment_list', kwargs={'pk': kwargs['pk'], 'assignment_id': kwargs['assignment_id']})
+		return super(StudentAssignmentGrade, self).post(request, *args, **kwargs)
 	
