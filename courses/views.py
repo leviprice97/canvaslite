@@ -97,7 +97,7 @@ class AssignmentCreateView(OwnerAssignmentEditMixin, CreateView):
 
 
 class AssignmentDeleteView(View):
-	
+
 	def post(self, request, pk, assignment_id):
 		assignment = get_object_or_404(Assignment,
 									id=assignment_id)
@@ -110,7 +110,7 @@ class AssignmentDeleteView(View):
 		for content in content_list:
 			Content.objects.get(id=content).delete()
 		return redirect('course_assignment_list', pk)
-	
+
 class AssignmentGradeView(TemplateView):
 	template_name = 'courses/manage/assignment/grades.html'
 	assignment = None
@@ -170,6 +170,13 @@ class StudentAssignmentGrade(View):
 class StudentAssignmentGradeCreate(StudentAssignmentGrade, CreateView):
 	model = Grade
 
+	def get(self, request, *args, **kwargs):
+		try:
+			Grade.objects.get(student=User.objects.get(id=self.kwargs['student_id']), assignment = Assignment.objects.get(id=self.kwargs['assignment_id']))
+			return redirect('student_assignment_grade_update', self.kwargs['pk'], self.kwargs['assignment_id'], self.kwargs['student_id'])
+		except:
+			return super(StudentAssignmentGradeCreate, self).get(request, *args, **kwargs)
+
 class StudentAssignmentGradeUpdate(StudentAssignmentGrade, UpdateView):
 	def get_object(self):
 		return Grade.objects.get(student=self.kwargs['student_id'], assignment=self.kwargs['assignment_id'])
@@ -178,13 +185,13 @@ class StudentAssignmentGradeUpdate(StudentAssignmentGrade, UpdateView):
 class AssignmentUpdateView(OwnerAssignmentEditMixin, UpdateView):
 	def get_object(self):
 		return Assignment.objects.get(id=self.kwargs['assignment_id'])
-	
+
 
 class CourseAssignmentList(OwnerAssignmentMixin, ListView):
 	template_name = 'courses/course/assignmentList.html'
 	def get_queryset(self):
 		qs = super(CourseAssignmentList, self).get_queryset()
-		return qs.filter(course_id=self.kwargs['pk'])	
+		return qs.filter(course_id=self.kwargs['pk'])
 	def get_title(self):
 		return "sometext"
 	def get_context_data(self, **kwargs):
