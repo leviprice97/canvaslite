@@ -5,6 +5,6 @@ from .models import Course, Module
 ModuleFormSet = inlineformset_factory(Course,
                                       Module,
                                       fields=['title',
-                                              'description'],
+                                              'description', 'release_date'],
                                       extra=2,
                                       can_delete=True)

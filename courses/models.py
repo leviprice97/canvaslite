@@ -9,40 +9,36 @@ from django.utils import timezone
 
 
 class Subject(models.Model):
-	title = models.CharField(max_length=200)
-	slug = models.SlugField(max_length=200, unique=True)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
 
-	class Meta:
-		ordering = ['title']
+    class Meta:
+        ordering = ['title']
 
-	def __str__(self):
-		return self.title
+    def __str__(self):
+        return self.title
 
 
 class Course(models.Model):
-	owner = models.ForeignKey(User,
-							  related_name='courses_created',
-							  on_delete=models.CASCADE)
-	subject = models.ForeignKey(Subject,
-								related_name='courses',
-								on_delete=models.CASCADE)
-	title = models.CharField(max_length=200)
-	slug = models.SlugField(max_length=200, unique=True)
-	overview = models.TextField()
-	created = models.DateTimeField(auto_now_add=True)
-	students = models.ManyToManyField(User,
-									  related_name='courses_joined',
-									  blank=True)
+    owner = models.ForeignKey(User,
+                              related_name='courses_created',
+                              on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject,
+                                related_name='courses',
+                                on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    overview = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    students = models.ManyToManyField(User,
+                                      related_name='courses_joined',
+                                      blank=True)
 
-	class Meta:
-		ordering = ['-created']
-	
-	def get_course_id(self):
-		return self.id
+    class Meta:
+        ordering = ['-created']
 
-	def __str__(self):
-		return self.title
-
+    def __str__(self):
+        return self.title
 
 
 class Assignment(models.Model):
@@ -88,15 +84,18 @@ class Module(models.Model):
 	description = models.TextField(blank=True, null=True)
 	order = OrderField(blank=True, null=True, for_fields=['course'])
 
-	class Meta:
-		ordering = ['order']
-	
-	def getcourse(self):
-		return self.course
+    class Meta:
+        ordering = ['order']
 
+    def __str__(self):
+        return '{}. {}'.format(self.order, self.title)
 
-	def __str__(self):
-		return '{}. {}'.format(self.order, self.title)
+    def is_true(self):
+        check = False
+        time_now = timezone.now()
+        if self.release_date <= time_now:
+            check = True
+        return check
 
 
 class Content(models.Model):

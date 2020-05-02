@@ -14,11 +14,11 @@
                 <h1>Subjects</h1>
                     <div class="row mb-3">
                         <div class="col-md-6 border px-lg-5">
-                            <a href="{% url "course_list" %}">All</a><br>
+                            <a href="{% url 'course_list' %}">All</a><br>
                         </div>
                         {% for s in subjects %}
                         <div class="col-md-6 border px-lg-5">
-                            <a href="{% url "course_list_subject" s.slug %}">{{ s.title }} | {{ s.total_courses }} courses</a>
+                            <a href="{% url 'course_list_subject' s.slug %}">{{ s.title }} | {{ s.total_courses }} courses</a>
                         </div>
                         {% endfor %}
                     </div>
@@ -36,7 +36,7 @@
                             <h3><a href="{% url "course_detail" course.slug %}"><br>
                             {{ course.title }}</a></h3>
                             <p>
-                                <a href="{% url "course_list_subject" subject.slug %}">
+                                <a href="{% url 'course_list_subject' subject.slug %}">
                                 {{ subject }}</a> |
                                 {{ course.total_modules }} modules |
                                 Instructor: {{ course.owner.get_full_name }}
