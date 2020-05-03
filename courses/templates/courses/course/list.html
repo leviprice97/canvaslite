@@ -40,8 +40,7 @@
                                 {{ subject }}</a> |
                                 {{ course.total_modules }} modules |
                                 Instructor: {{ course.owner.get_full_name }}
-                                <h5><a href="{% url "course_detail" course.slug %}">Recent Announcements</h5></a>
-                                (Announcements will be displayed once created)<br>
+
                             <br></p>
                         {% endwith %}
                     </div>
