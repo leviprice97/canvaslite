@@ -32,7 +32,7 @@ SECRET_KEY = '!b)$&*330e&(o)b*%#c(sr(ps)l0ztbw$q)#0=rf31xvtlyd=%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['isqa3900onlineteam2.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
