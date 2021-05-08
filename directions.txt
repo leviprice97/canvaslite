@@ -1,0 +1,20 @@
+DJANGO
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py makemigrations
+python manage.py runserver
+python manage.py createsuperuser
+python manage.py collectstatic
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+http://127.0.0.1:8000/
+http://127.0.0.1:8000/admin/
+
+GITHUB
+git clone (to clone repo)
+git status (check status of repo)
+git add -A (records all working directory changes to repo)
+git commit -m "message" (record changes to repo)
+git push (to push changes after commiting them to repo)
+git pull (fetch and integrate new changes from repo)
